@@ -1,12 +1,9 @@
 import axios from "axios";
 
-const axiosInstance = axios.create({
+const PublicAxios = axios.create({
 
    baseURL: 'http://127.0.0.1:8000/',
     
 });
 
-export default axiosInstance;
-
-
-
+export default PublicAxios;

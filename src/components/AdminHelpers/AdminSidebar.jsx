@@ -1,5 +1,7 @@
 import React from 'react'
 import { useNavigate,Link } from 'react-router-dom'
+import logo1 from "./../../assets/logo2.png"
+
 
 const AdminSidebar = () => {
   const navigate = useNavigate();
@@ -10,7 +12,8 @@ const AdminSidebar = () => {
     <div className="relative hidden h-screen shadow-lg lg:block w-80">
             <div className="h-full bg-white dark:bg-gray-700">
               <div className="flex items-center justify-start pt-6 ml-8">
-                <p className="text-xl font-bold dark:text-white">ZENNITH CARE</p>
+              <img src={logo1} className="w-[230px]" />
+
               </div>
               <nav className="mt-6">
                 <div>

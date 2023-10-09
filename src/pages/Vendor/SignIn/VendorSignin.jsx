@@ -11,6 +11,7 @@ import { setCredentials } from "../../../redux/AuthContext";
 import axiosInstance from "../../../axiosInstance";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
+import PublicAxios from "../../../Axios/PublicAxios";
 
 const VendorSignin = () => {
   const [loading, setLoading] = useState(false);
@@ -100,7 +101,7 @@ const VendorSignin = () => {
                     type="submit"
                     class="w-full text-center py-3 rounded-md bg-[#051570] text-white  hover:bg-green-dark focus:outline-none my-1"
                   >
-                    Login In {loading && <Spinner />}
+                    {loading ?<Spinner />:'Login In'}
                   </button>
                 </form>
                 <div class="text-center text-sm text-gray-400 mt-4">

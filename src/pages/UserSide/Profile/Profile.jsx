@@ -13,6 +13,7 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const user_id = authstate.user_id;
 
+
   useEffect(() => {
     if (authstate.accessToken == null){
 navigate("/login")
@@ -31,7 +32,7 @@ navigate("/login")
       }
     };
     fetchUserData();
-  }, [user_id]); // Include user_id in the dependency array
+  }, [user_id,authstate.accessToken]); // Include user_id in the dependency array
 
   
   const handleSubmit = async (event) => {
@@ -41,8 +42,9 @@ navigate("/login")
       formData.append("profile_img", image);
       await axiosInstance.put(`auth/image/${user_id}/`, formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
       notify();
     } catch (error) {

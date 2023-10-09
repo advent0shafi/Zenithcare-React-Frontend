@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../axiosInstance";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
+import PublicAxios from "../../../Axios/PublicAxios";
 
 const SignupVendor = () => {
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ const SignupVendor = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axiosInstance.post("auth/signup", formData, {
+      const response = await PublicAxios.post("auth/signup", formData, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });

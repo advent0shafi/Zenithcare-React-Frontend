@@ -2,6 +2,7 @@ import React from 'react'
 import Sidebar from '../../../components/VendorsComponents/Sidebar'
 import NavbarVendor from '../../../components/VendorsComponents/NavbarVendor'
 import ProfileVendor from '../../../components/VendorsComponents/ProfileVendor'
+import AdminBody from '../../../components/AdminHelpers/AdminBody'
 
 const VendorHome = () => {
   const customStyle = {
@@ -9,14 +10,21 @@ const VendorHome = () => {
   };
   return (
     <>
-<NavbarVendor/>
-     
-      
-      <div class="flex mb-4">
-  
-  <div class="md:w-1/5 bg-[#051570] hidden md:block"><Sidebar/></div>
-  <div class="w-3/4 ml-auto"><ProfileVendor/></div>
-</div>
+
+<div className="fixed top-0 w-full z-50 bg-white shadow-md">
+        <NavbarVendor />
+      </div>
+
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-1/5 hidden top-0 mb-8 md:block h-full bg-blue-gray-900">
+          <Sidebar />
+        </div>
+
+        <div className="w-full md:w-10/12 mt-24">
+        <AdminBody/>
+        </div>
+      </div>
+
     </>
   )
 }

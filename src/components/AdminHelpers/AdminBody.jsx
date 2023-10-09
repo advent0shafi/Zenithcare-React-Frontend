@@ -6,7 +6,7 @@ import AdminCalenders from "./AdminCalenders";
 const AdminBody = () => {
   return (
     <>
-      <div className="h-screen px-4 pb-24 overflow-auto md:px-6">
+      <div className="px-4 pb-24 overflow-auto md:px-6">
         <h1 className="text-4xl font-semibold text-gray-800 dark:text-white">
           Good afternoom, Charlie
         </h1>

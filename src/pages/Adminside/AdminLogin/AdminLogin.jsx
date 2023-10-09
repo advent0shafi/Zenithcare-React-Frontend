@@ -3,9 +3,10 @@ import image from "./../../../assets/logiko.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../../redux/AuthContext";
-import axiosInstance from "../../../axiosInstance";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
+import PublicAxios from "../../../Axios/PublicAxios";
+import axiosInstance from "../../../axiosInstance";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ const AdminLogin = () => {
 
     try {
       setLoading(true);
-      const response = await axiosInstance.post("token/", user, {
+      const response = await PublicAxios.post("token/", user, {
         headers: {
           "Content-Type": "application/json",
         },

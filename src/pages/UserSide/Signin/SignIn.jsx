@@ -11,6 +11,7 @@ import { setCredentials } from "../../../redux/AuthContext";
 import axiosInstance from "../../../axiosInstance";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
+import PublicAxios from "../../../Axios/PublicAxios";
 
 
 const SignIn = () => {
@@ -30,7 +31,7 @@ const SignIn = () => {
     
     try {
 setLoading(true)
-      const response = await axiosInstance.post("token/", user, {
+      const response = await PublicAxios.post("token/", user, {
         headers: {
           "Content-Type": "application/json",
         },
