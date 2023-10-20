@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import data from "./../../../assets/blue.jpg";
 import image from "./../../../assets/logiko.png";
 import ReactDOM from "react-dom";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import Navbar from "../../../components/landingPages/Navbar";
+import Footer from "../../../components/landingPages/Footer";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import axiosInstance from "../../../axiosInstance";
+
 
 const VendorOtp = () => {
   const [otps, setOtp] = useState("");

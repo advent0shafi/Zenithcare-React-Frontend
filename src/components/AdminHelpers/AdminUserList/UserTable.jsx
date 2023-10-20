@@ -22,25 +22,12 @@ import {
 } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../../axiosInstance";
-const TABS = [
-  {
-    label: "All",
-    value: "all",
-  },
-  {
-    label: "Monitored",
-    value: "monitored",
-  },
-  {
-    label: "Unmonitored",
-    value: "unmonitored",
-  },
-];
-const TABLE_HEAD = ["Member", "Function", "Active", "actions", "actions",];
-const ITEMS_PER_PAGE = 5; 
+import PublicAxios from "../../../Axios/PublicAxios";
 
+const TABLE_HEAD = ["Member", "Function", "Active", "actions", "actions"];
+const ITEMS_PER_PAGE = 5;
 
-const UserTable = ({urlEndpoint}) => {
+const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
   const authstate = useSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState("");
   const [userdata, setUserdata] = useState([]);
@@ -48,7 +35,7 @@ const UserTable = ({urlEndpoint}) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axiosInstance.get(`adminside/${urlEndpoint}`, {
+        const response = await PublicAxios.get(`adminside/${urlEndpoint}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -61,7 +48,6 @@ const UserTable = ({urlEndpoint}) => {
     fetchUserData();
   }, [authstate.accessToken]);
 
-  
   const [currentPage, setCurrentPage] = useState(1);
   const filteredUsers = userdata.filter(
     (user) =>
@@ -88,22 +74,24 @@ const UserTable = ({urlEndpoint}) => {
     }
   };
 
-
   const block = async (id) => {
     try {
-      const response = await axiosInstance.post(`adminside/block/${id}/`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.post(
+        `adminside/${Button_Endpoint}/${id}/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(response.data);
-  
+
       // Assuming the response contains the updated user data
       const updatedUser = response.data;
-  
+
       // Find the index of the updated user in the list
       const index = userdata.findIndex((user) => user.id === updatedUser.id);
-  
+
       // Update the user in the list with the updated data
       if (index !== -1) {
         const updatedUsers = [...userdata];
@@ -120,15 +108,6 @@ const UserTable = ({urlEndpoint}) => {
       <Card className="h-full w-full">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <Tabs value="all" className="w-full md:w-max">
-              <TabsHeader>
-                {TABS.map(({ label, value }) => (
-                  <Tab key={value} value={value}>
-                    &nbsp;&nbsp;{label}&nbsp;&nbsp;
-                  </Tab>
-                ))}
-              </TabsHeader>
-            </Tabs>
             <div className="w-full md:w-72">
               <Input
                 label="Search"
@@ -255,8 +234,37 @@ const UserTable = ({urlEndpoint}) => {
                           color="blue-gray"
                           className="font-normal"
                         >
-                        { is_active ? <button onClick={()=>block(id)} className="bg-[#051570] h-8 rounded font-bold text-white w-28 ">block</button>
-                         : <button onClick={()=>block(id)} className="bg-[#051570] h-8 rounded font-bold text-white w-28 ">Unblock</button>}
+                          {IsTherapist ? (
+                            is_active ? (
+                              <button
+                                onClick={() => block(id)}
+                                className="bg-[#051570] h-8 rounded font-bold text-white w-28"
+                              >
+                                Block
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => block(id)}
+                                className="bg-[#051570] h-8 rounded font-bold text-white w-28"
+                              >
+                                Unblock
+                              </button>
+                            )
+                          ) : is_therapist ? (
+                            <button
+                              onClick={() => block(id)}
+                              className="bg-[#051570] h-8 rounded font-bold text-white w-28"
+                            >
+                              Block
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => block(id)}
+                              className="bg-[#051570] h-8 rounded font-bold text-white w-28"
+                            >
+                              Approve
+                            </button>
+                          )}
                         </Typography>
                       </td>
                       <td className={classes}>
@@ -266,7 +274,6 @@ const UserTable = ({urlEndpoint}) => {
                           </IconButton>
                         </Tooltip>
                       </td>
-                      
                     </tr>
                   );
                 }

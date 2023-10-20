@@ -1,10 +1,13 @@
 import React from 'react'
 import { Link} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse,faUser } from "@fortawesome/free-solid-svg-icons";
-
+import { faHouse,faUser,faComment } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
+  const authstate = useSelector((state)=> state.auth) 
+  
+  
   return (
 
      <div
@@ -12,7 +15,9 @@ const Sidebar = () => {
         <ul>
          <Link to="/vendor/home"> <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size="sm"/></span>Home</li></Link>
          <Link to="/vendor/profile"> <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faUser} size="sm"/></span>profile</li></Link>
-          <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size='sm'/></span>Articles</li>
+         <Link to="/vendor/chat"> <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faComment} /></span>Chat</li></Link>
+
+         <Link to={`/vendor/booking/${authstate?.user_id}`}>  <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size='sm'/></span>Booking Slot</li></Link>
           <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size="sm"/></span>Chat</li>
           <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size="sm"/></span>Dashboard</li>
           <div className="flex flex-col my-4 gap-4 text-white">

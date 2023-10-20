@@ -1,13 +1,13 @@
 import React from 'react'
-import Navbar from '../../../components/Navbar'
-import Hero from '../../../components/Hero'
-import Trusted from '../../../components/Trusted'
-import TopTherapist from '../../../components/TopTherapist'
-import Booster from '../../../components/Booster'
-import Feedback from '../../../components/Feedback'
-import Therapist from '../../../components/Therapist'
-import Blog from '../../../components/Blog'
-import Footer from '../../../components/Footer'
+import Navbar from '../../../components/landingPages/Navbar'
+import Hero from '../../../components/landingPages/Hero'
+import Trusted from '../../../components/landingPages/Trusted'
+import TopTherapist from '../../../components/landingPages/TopTherapist'
+import Booster from '../../../components/landingPages/Booster'
+import Feedback from '../../../components/landingPages/Feedback'
+import Therapist from '../../../components/landingPages/Therapist'
+import Blog from '../../../components/landingPages/Blog'
+import Footer from '../../../components/landingPages/Footer'
 
 
 const Home = () => {

@@ -5,6 +5,8 @@ import AdminHeader from '../../../components/AdminHelpers/AdminHeader'
 import UserTable from '../../../components/AdminHelpers/AdminUserList/UserTable'
 const VendorList = () => {
  const urlEndpoint = 'vendorlist'
+ const button_endpoint = 'block';
+
   return (
     <div>
       <main className="relative  overflow-hidden bg-gray-100 dark:bg-gray-800">
@@ -14,7 +16,9 @@ const VendorList = () => {
             <AdminHeader/>
             <div className='p-4'>
 
-            <UserTable  urlEndpoint={urlEndpoint}/>
+            <UserTable  urlEndpoint={urlEndpoint} Button_Endpoint={button_endpoint}
+            IsTherapist = {true}
+            />
             </div>
           </div>
         </div>

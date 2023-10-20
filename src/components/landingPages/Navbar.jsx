@@ -1,12 +1,13 @@
 import React, { useState,useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark,faUser } from "@fortawesome/free-solid-svg-icons";
-import logo1 from "../assets/logo2.png";
-import lock from "../assets/lock.png";
-import axiosInstance from "../axiosInstance";
+
+import logo1 from "./../../assets/logo2.png";
+import lock from "./../../assets/lock.png";
+import axiosInstance from "../../axiosInstance";
 import { Link} from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
-import { userlogout } from "../redux/AuthContext";
+import { userlogout } from "../../redux/AuthContext";
 
 
 const Navbar = () => {
@@ -43,7 +44,7 @@ const handleLogout = (e) => {
           <ul className="flex gap-4">
           <Link to="/"><li>Home</li></Link>  
           <Link to="/Therapist"> <li>Therapist</li></Link>
-            <li>Blog</li>
+            <Link to="/blog"><li>Blog</li></Link>
             <li>About</li>
             <li>Contact</li>
           </ul>

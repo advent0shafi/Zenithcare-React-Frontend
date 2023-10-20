@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import data from "./../../../assets/blue.jpg";
 import image from "./../../../assets/logiko.png";
 import ReactDOM from "react-dom";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import Navbar from "../../../components/landingPages/Navbar";
+import Footer from "../../../components/landingPages/Footer";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
@@ -47,8 +47,7 @@ setLoading(true)
       }
       dispatch(setCredentials(userdata));
 
-      // localStorage.setItem("access_token", response.data.access);
-      //   localStorage.setItem("refresh_token", response.data.refresh);
+
       axiosInstance.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${response.data.access_token}`;

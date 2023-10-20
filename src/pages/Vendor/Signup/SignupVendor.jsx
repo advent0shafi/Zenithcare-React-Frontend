@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import data from "./../../../assets/blue.jpg";
 import image from "./../../../assets/logiko.png";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import Navbar from "../../../components/landingPages/Navbar";
+import Footer from "../../../components/landingPages/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../axiosInstance";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
-import PublicAxios from "../../../Axios/PublicAxios";
 
 const SignupVendor = () => {
   const [loading, setLoading] = useState(false);
@@ -18,7 +17,7 @@ const SignupVendor = () => {
     username: "",
     phone_number:"",
     password: "",
-    is_therapist: true
+    is_therapist: false
   });
 
   const handleChange = (e) => {
@@ -30,12 +29,12 @@ const SignupVendor = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await PublicAxios.post("auth/signup", formData, {
+      const response = await axiosInstance.post("auth/register", formData, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
       console.log("Signup successful:", response.data);
-      Navigate(`/vendor/otp/${response.data.user.id}`);
+      Navigate(`/vendor/detailform/${response.data.user.id}`);
     } catch (error) {
       setLoading(false);
       console.error("Error signing up:", error);

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import data from "./../../../assets/blue.jpg";
 import image from "./../../../assets/logiko.png";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
+import Navbar from "../../../components/landingPages/Navbar";
+import Footer from "../../../components/landingPages/Footer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../axiosInstance";
@@ -16,7 +16,9 @@ const SignUp = () => {
   const [formData, setFormData] = useState({
     email: '',
     username: '',
+    phone_number:'',
     password: '',
+
   });
 
   const handleChange = (e) => {
@@ -73,6 +75,11 @@ const SignUp = () => {
                     class="block border border-grey-light w-full p-3 rounded mb-4"
                     type="text" name="username" value={formData.username} onChange={handleChange} required
                     placeholder="Username"
+                  />
+                   <input
+                    class="block border border-grey-light w-full p-3 rounded mb-4"
+                    type="number" name="phone_number" value={formData.phone_number} onChange={handleChange} required
+                    placeholder="Phone Number"
                   />
 
                   <input

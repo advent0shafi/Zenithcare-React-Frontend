@@ -1,5 +1,5 @@
-import React from "react";
-import herion from "../assets/girlss.png";
+import React from "react"
+import herion from "./../../assets/girlss.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 

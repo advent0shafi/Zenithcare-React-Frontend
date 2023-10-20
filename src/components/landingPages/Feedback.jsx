@@ -1,6 +1,6 @@
 import React from 'react'
 import Slider from 'react-slick'
-import FeedbackCard from './InnerComponents/FeedbackCard';
+import FeedbackCard from './../InnerComponents/FeedbackCard';
 
 const Feedback = () => {
     var settings = {
