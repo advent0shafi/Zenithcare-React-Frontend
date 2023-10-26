@@ -12,7 +12,10 @@ import VendorUpdate from '../pages/Vendor/VendorUpdate/VendorUpdate';
 import VendorChat from '../pages/Vendor/VendorChat/VendorChat';
 import VendorChatLayout from '../pages/Vendor/VendorChat/VendorChatLayout';
 import SuccessPage from '../pages/Vendor/SuccessPage/SuccessPage';
-
+import PaymentLayout from '../pages/Vendor/PaymentsList/PaymentLayout';
+import BookedLayoutSessions from '../pages/Vendor/BookedSessions/BookedLayoutSessions';
+import VendorWalletLayout from '../pages/Vendor/WalletVendor/VendorWalletLayout';
+import VendorBlogLayout from '../pages/Vendor/vendorBlog/VendorBlogLayout';
 
 const VendorRoutes = () => {
   return (
@@ -25,12 +28,16 @@ const VendorRoutes = () => {
             <Route  path="/chat" element={<VendorChatLayout/>}/>
 
             <Route path="/booking/:vendorId" element={<BookingManagment />} />
-            </Route>
+            <Route path="/payment" element={<PaymentLayout/>} />
+            <Route path='/wallet-vendor' element={<VendorWalletLayout/>}/>
+            <Route path='/vendor-blog' element={<VendorBlogLayout/>}/>
+             </Route>
             <Route path='/signup' element={<SignupVendor/>} />
             <Route path='/detailform/:id' element={<DetailsForm/>} />
             <Route path="/login" element={<VendorSignin/>}/>
             <Route path="/success" element={<SuccessPage/>}/>
             <Route path='/otp/:id' element={<VendorOtp/>} />
+            <Route path='/bookings-sessions' element={<BookedLayoutSessions/>}/>
 
         </Routes>
     </div>

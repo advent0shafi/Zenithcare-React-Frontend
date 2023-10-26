@@ -3,6 +3,7 @@ import images from "./../../assets/doctor.png";
 
 
 import { Link } from "react-router-dom";
+import { CounselorProfile } from "../../pages/UserSide/Counselor/CounselorProfile";
 
 const HCards = ({ name, certification, specializations, buttonText, image,id }) => {
 
@@ -26,11 +27,14 @@ const HCards = ({ name, certification, specializations, buttonText, image,id }) 
         </div>
         <div className="md:w-1/5 bg-white md:p-4 p-3 md:pl-9 pl-24">
           <div className="md:mt-24 mb-4">
-            <Link to={`/counselor/${id}`}>
+          <button className="bg-transparent hover:bg-[#051570] text-[#051570] text-xl font-bold hover:text-white py-2 px-4 border border-[#051570] hover:border-transparent shadow-lg rounded-[200px] transition duration-300 ease-in-out transform hover:scale-105">
+              <CounselorProfile  therapist_id = {id}/>
+              </button>
+            {/* <Link to={`/counselor/${id}`}>
               <button className="bg-transparent hover:bg-[#051570] text-[#051570] text-xl font-bold hover:text-white py-2 px-4 border border-[#051570] hover:border-transparent shadow-lg rounded-[200px] transition duration-300 ease-in-out transform hover:scale-105">
                 {buttonText}
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

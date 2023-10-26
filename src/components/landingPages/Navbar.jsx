@@ -1,7 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark,faUser } from "@fortawesome/free-solid-svg-icons";
-
 import logo1 from "./../../assets/logo2.png";
 import lock from "./../../assets/lock.png";
 import axiosInstance from "../../axiosInstance";

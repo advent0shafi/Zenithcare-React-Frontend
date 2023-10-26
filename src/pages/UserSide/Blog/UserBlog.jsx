@@ -1,13 +1,13 @@
 import React from 'react'
 import Navbar from '../../../components/landingPages/Navbar'
 import Footer from '../../../components/landingPages/Footer'
-import BlogListMainBody from '../../../components/landingPages/BlogListMainBody'
+import UserBlogList from './UserBlogList'
 
 const UserBlog = () => {
   return (
     <>
 <Navbar/>
-<BlogListMainBody/>
+<UserBlogList/>
 <Footer/>
     </>
   )

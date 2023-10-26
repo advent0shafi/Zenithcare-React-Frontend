@@ -7,7 +7,8 @@ import BackAuth from "../Authorisations/BackAuth";
 import UserList from "../pages/Adminside/AdminUserList/UserList";
 import VendorList from "../pages/Adminside/AdminVendorList/VendorList";
 import AdminApproveList from "../pages/Adminside/AdminApproveList/AdminApproveList";
-import AdminPaymentList from "../pages/Adminside/AdminPaymentList/AdminPaymentList";
+import AdminPaymentLayout from "../pages/Adminside/AdminPaymentList/AdminPaymentLayout";
+import AdminVendorPaymentLayout from "../pages/Adminside/AdminPaymentList/AdminVendorPaymentLayout";
 
 const AdminRoutes = () => {
   return (
@@ -18,8 +19,8 @@ const AdminRoutes = () => {
           <Route path="/userlist" element={<UserList/>} />
           <Route path="/vendorlist" element={<VendorList/>} />
           <Route path="/approvelist" element={<AdminApproveList/>} />
-          <Route path="/payment-list" element={<AdminPaymentList/>} />
-
+          <Route path="/payment-list" element={<AdminPaymentLayout/>} />
+          <Route path="/payment-pending" element={<AdminVendorPaymentLayout/>} />
         </Route>
         {/* <Route element={<BackAuth />}> */}
           <Route path="/login" element={<AdminLogin />} />

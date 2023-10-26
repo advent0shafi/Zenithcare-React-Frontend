@@ -4,7 +4,7 @@ import NavbarVendor from '../../../components/VendorsComponents/NavbarVendor'
 import ProfileVendor from '../../../components/VendorsComponents/ProfileVendor'
 import VendorUpdateMainBody from '../../../components/VendorsComponents/VendorUpdateMainBody'
 
-    ``
+  
 const VendorUpdate = () => {
   return (
     <>
