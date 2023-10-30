@@ -8,6 +8,13 @@ import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import image from "../../../assets/doctor.png";
+
+const initialFormData = {
+  username: "",
+  phone_number: "",
+  // Add other fields as needed
+};
+
 const VendorProfile = () => {
   const authstate = useSelector((state) => state.auth);
   const [image, setImage] = useState("");
@@ -16,6 +23,8 @@ const VendorProfile = () => {
   const [catogery, setcatogery] = useState([]);
   const [therapist, setTherapist] = useState({});
   const [languages, setlanguage] = useState([]);
+  const [formsData, setFormsData] = useState(initialFormData);
+  const [toggle, setToggle] = useState(false);
   const user_id = authstate.user_id;
 
   useEffect(() => {
@@ -29,6 +38,13 @@ const VendorProfile = () => {
         JSON.stringify(response);
         setTherapist(response.data.therapist);
         setUserData(response.data);
+        setFormsData({
+          username: response.data.username,
+          phone_number: response.data.phone_number,
+          email: response.data.email,
+
+          // Add other fields as needed
+        });
       });
     } catch (error) {
       console.log("Error fetching user data:", error);
@@ -55,6 +71,28 @@ const VendorProfile = () => {
 
   const notify = () => toast.success("Image has been updated.");
 
+  const handleInputChange = (e) => {
+    setFormsData({
+      ...formsData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const updateUserDetails = async (event) => {
+    event.preventDefault();
+    try {
+      await PublicAxios.put(`auth/update/${user_id}/`, formsData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      notify("User details have been updated.");
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+      console.error("Error updating user", error);
+    }
+  };
+
   return (
     <>
       <div className="fixed top-0 w-full z-50 bg-white shadow-md">
@@ -70,7 +108,7 @@ const VendorProfile = () => {
           <div className="flex bg-white mb-2">
             <div className="bg-gradient-to-br from-green-500  to-blue-500 rounded-full md:h-48 md:w-48  p-1">
               <img
-                className="rounded-full"
+                className="rounded-full md:h-48 md:w-48"
                 src={
                   image
                     ? URL.createObjectURL(image)
@@ -142,16 +180,72 @@ const VendorProfile = () => {
               </div>
             </div>
 
-            <div className="bg-white w-[750px] h-34 ml-6  mt-2 p-4 rounded-sm ">
-              <h1 className="text-2xl">DR: {userdata && userdata.username}</h1>
-              <h1 className="text-1xl">email: {userdata && userdata.email}</h1>
-              <h1 className="text-1xl">
-                Specialisations : {therapist && therapist.categories?.name}
-              </h1>
-              <h1 className="text-1xl">
-                Langauge: {therapist && therapist.languages?.language}
-              </h1>
-            </div>
+            {!toggle ? (
+              <div className="bg-white w-[750px] h-34 ml-6  mt-2 p-4 rounded-sm ">
+                <h1 className="text-2xl">{userdata && userdata.username}</h1>
+                <h1 className="text-1xl">
+                  email: {userdata && userdata.email}
+                </h1>
+                <h1 className="text-1xl">
+                  Specialisations : {therapist && therapist.categories?.name}
+                </h1>
+                <h1 className="text-1xl">
+                  Langauge: {therapist && therapist.languages?.language}
+                </h1>
+              </div>
+            ) : (
+              <form className="ml-4" onSubmit={updateUserDetails}>
+              <div className="w-full mb-4">
+                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formsData.username}
+                  onChange={handleInputChange}
+                  className="w-full text-4xl border rounded-md  py-2 px-3 font-medium text-gray-700"
+                />
+              </div>
+              <div className="w-full mb-4">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formsData.email}
+                  placeholder={formsData.email}
+                  className="w-full font-light text-gray-600 py-2 px-3 border rounded-md "
+                />
+              </div>
+              <div className="w-full mb-4">
+                <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">
+                  Phone Number
+                </label>
+                <input
+                  type="number"
+                  id="phone_number"
+                  name="phone_number"
+                  value={formsData.phone_number}
+                  placeholder={formsData.phone_number}
+                  onChange={handleInputChange}
+                  className="w-full font-light text-gray-600 py-2 px-3 border rounded-md "
+                />
+              </div>
+              <button className="bg-red-700 text-white w-auto mt-5 rounded-md p-1 hover:bg-red-900 py-2 px-4">
+                Update
+              </button>
+            </form>
+            
+            )}
+          </div>
+          <div className="text-center w-full">
+            <h1 onClick={() => setToggle(!toggle)} className="text-blue-800 font-normal peer-hover:red-500 ">
+              {toggle ? "Cancel" : "Edit"}
+            </h1>
           </div>
           <div className="bg-white h-96">
             <div className="bg-white h-56 p-6">
@@ -161,31 +255,31 @@ const VendorProfile = () => {
             </div>
           </div>
           <Link to="/vendor/vendorupdate">
-          <a
-            href="#_"
-            class="relative inline-flex items-center justify-center p-4 px-6 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
-          >
-            <span class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
-              <svg
-                class="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                ></path>
-              </svg>
-            </span>
-            <span class="absolute flex items-center justify-center w-full h-full text-purple-500 transition-all duration-300 transform group-hover:translate-x-full ease">
-              Update Profile
-            </span>
-            <span class="relative invisible">Update Profile</span>
-          </a>
+            <a
+              href="#_"
+              class="relative inline-flex items-center justify-center p-4 px-6 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
+            >
+              <span class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </span>
+              <span class="absolute flex items-center justify-center w-full h-full text-purple-500 transition-all duration-300 transform group-hover:translate-x-full ease">
+                Update Profile
+              </span>
+              <span class="relative invisible">Update Profile</span>
+            </a>
           </Link>
         </div>
       </div>

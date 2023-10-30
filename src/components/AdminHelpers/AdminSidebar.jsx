@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Outlet, useLocation } from "react-router-dom"; // Import useLocation
 import logo1 from "./../../assets/logo2.png";
 
 const AdminSidebar = () => {
@@ -16,18 +16,27 @@ const AdminSidebar = () => {
             <div>
               <Link to="/admin">
                 <a
-                  className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-800 transition-colors duration-200 border-l-4 border-purple-500 dark:text-white"
+                  className={`flex items-center justify-start w-full p-2 pl-6 my-2  transition-colors duration-200 ${
+                    location.pathname === "/admin"
+                      ? "border-l-4 border-purple-500 text-gray-800"
+                      : "text-gray-400"
+                  }`}
                   href="#"
                 >
                   <span className="text-left">
                     <svg
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      viewBox="0 0 1792 1792"
                       xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
                     >
-                      <path d="M1472 992v480q0 26-19 45t-45 19h-384v-384h-256v384h-384q-26 0-45-19t-19-45v-480q0-1 .5-3t.5-3l575-474 575 474q1 2 1 6zm223-69l-62 74q-8 9-21 11h-3q-13 0-21-7l-692-577-692 577q-12 8-24 7-13-2-21-11l-62-74q-8-10-7-23.5t11-21.5l719-599q32-26 76-26t76 26l244 204v-195q0-14 9-23t23-9h192q14 0 23 9t9 23v408l219 182q10 8 11 21.5t-7 23.5z"></path>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                      />
                     </svg>
                   </span>
                   <span className="mx-2 text-sm font-normal">Home</span>
@@ -35,37 +44,54 @@ const AdminSidebar = () => {
               </Link>
               <Link to="/admin/userlist">
                 <a
-                  className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
+                  className={`flex items-center justify-start w-full p-2 pl-6 my-2  transition-colors duration-200 ${
+                    location.pathname === "/admin/userlist"
+                    ? "border-l-4 border-purple-500 text-gray-800"
+                    : "text-gray-400"
+                  }`}
                   href="#"
                 >
-                  <span className="text-left">
-                    <svg
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      viewBox="0 0 2048 1792"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z"></path>
-                    </svg>
-                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
+                    />
+                  </svg>
+
                   <span className="mx-2 text-sm font-normal">User List</span>
                 </a>
               </Link>
               <Link to="/admin/vendorlist">
                 <a
-                  className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
+                  className={`flex items-center justify-start w-full p-2 pl-6 my-2 transition-colors duration-200 ${
+                    location.pathname === "/admin/vendorlist"
+                    ? "border-l-4 border-purple-500 text-gray-800"
+                    : "text-gray-400"
+                  }`}
                   href="#"
                 >
                   <span className="text-left">
                     <svg
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      viewBox="0 0 2048 1792"
                       xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
                     >
-                      <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z"></path>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+                      />
                     </svg>
                   </span>
                   <span className="mx-2 text-sm font-normal">Vendor List</span>
@@ -73,18 +99,27 @@ const AdminSidebar = () => {
               </Link>
               <Link to="/admin/approvelist">
                 <a
-                  className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
+                  className={`flex items-center justify-start w-full p-2 pl-6 my-2  transition-colors duration-200 ${
+                    location.pathname === "/admin/approvelist"
+                    ? "border-l-4 border-purple-500 text-gray-800"
+                    : "text-gray-400"
+                  }`}
                   href="#"
                 >
                   <span className="text-left">
                     <svg
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      viewBox="0 0 2048 1792"
                       xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
                     >
-                      <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z"></path>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
+                      />
                     </svg>
                   </span>
                   <span className="mx-2 text-sm font-normal">Verify List</span>
@@ -92,18 +127,27 @@ const AdminSidebar = () => {
               </Link>
               <Link to="/admin/payment-list">
                 <a
-                  className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
+                  className={`flex items-center justify-start w-full p-2 pl-6 my-2  transition-colors duration-200 ${
+                    location.pathname === "/admin/payment-list"
+                    ? "border-l-4 border-purple-500 text-gray-800"
+                    : "text-gray-400"
+                  }`}
                   href="#"
                 >
                   <span className="text-left">
                     <svg
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      viewBox="0 0 2048 1792"
                       xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
                     >
-                      <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z"></path>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
+                      />
                     </svg>
                   </span>
                   <span className="mx-2 text-sm font-normal">Payment</span>
@@ -111,60 +155,36 @@ const AdminSidebar = () => {
               </Link>
               <Link to="/admin/payment-pending">
                 <a
-                  className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
-               
+                  className={`flex items-center justify-start w-full p-2 pl-6 my-2  transition-colors duration-200 ${
+                    location.pathname === "/admin/payment-pending"
+                    ? "border-l-4 border-purple-500 text-gray-800"
+                    : "text-gray-400"
+                  }`}
                 >
                   <span className="text-left">
                     <svg
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      viewBox="0 0 2048 1792"
                       xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
                     >
-                      <path d="M1070 1178l306-564h-654l-306 564h654zm722-282q0 182-71 348t-191 286-286 191-348 71-348-71-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z"></path>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"
+                      />
                     </svg>
                   </span>
-                  <span className="mx-2 text-sm font-normal">Payment Pending</span>
+                  <span className="mx-2 text-sm font-normal">
+                    Payment Pending
+                  </span>
                 </a>
               </Link>
-              
-              <a
-                className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
-                href="#"
-              >
-                <span className="text-left">
-                  <svg
-                    width="20"
-                    height="20"
-                    fill="currentColor"
-                    viewBox="0 0 1792 1792"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M1728 608v704q0 92-66 158t-158 66h-1216q-92 0-158-66t-66-158v-960q0-92 66-158t158-66h320q92 0 158 66t66 158v32h672q92 0 158 66t66 158z"></path>
-                  </svg>
-                </span>
-                <span className="mx-4 text-sm font-normal">Resources</span>
-              </a>
-              <a
-                className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
-                href="#"
-              >
-                <span className="text-left">
-                  <svg
-                    width="20"
-                    height="20"
-                    fill="currentColor"
-                    viewBox="0 0 2048 1792"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M580 461q0-41-25-66t-66-25q-43 0-76 25.5t-33 65.5q0 39 33 64.5t76 25.5q41 0 66-24.5t25-65.5zm743 507q0-28-25.5-50t-65.5-22q-27 0-49.5 22.5t-22.5 49.5q0 28 22.5 50.5t49.5 22.5q40 0 65.5-22t25.5-51zm-236-507q0-41-24.5-66t-65.5-25q-43 0-76 25.5t-33 65.5q0 39 33 64.5t76 25.5q41 0 65.5-24.5t24.5-65.5zm635 507q0-28-26-50t-65-22q-27 0-49.5 22.5t-22.5 49.5q0 28 22.5 50.5t49.5 22.5q39 0 65-22t26-51zm-266-397q-31-4-70-4-169 0-311 77t-223.5 208.5-81.5 287.5q0 78 23 152-35 3-68 3-26 0-50-1.5t-55-6.5-44.5-7-54.5-10.5-50-10.5l-253 127 72-218q-290-203-290-490 0-169 97.5-311t264-223.5 363.5-81.5q176 0 332.5 66t262 182.5 136.5 260.5zm592 561q0 117-68.5 223.5t-185.5 193.5l55 181-199-109q-150 37-218 37-169 0-311-70.5t-223.5-191.5-81.5-264 81.5-264 223.5-191.5 311-70.5q161 0 303 70.5t227.5 192 85.5 263.5z"></path>
-                  </svg>
-                </span>
-                <span className="mx-4 text-sm font-normal">Store feedback</span>
-              </a>
             </div>
           </nav>
+          <Outlet />
         </div>
       </div>
     </>

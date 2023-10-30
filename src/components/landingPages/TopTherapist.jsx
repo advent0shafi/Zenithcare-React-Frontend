@@ -5,9 +5,11 @@ import people from "./../../assets/people.jpg";
 import axiosInstance from "../../axiosInstance";
 import { Link } from "react-router-dom";
 import PublicAxios from "../../Axios/PublicAxios";
+import { CounselorProfile } from "../../pages/UserSide/Counselor/CounselorProfile";
+
 
 const TopTherapist = () => {
-  const [userdata,setUserdata] = useState([])
+  const [therapistList, setTherapistList] = useState([]);
   useEffect(() => {
     try {
       PublicAxios.get(`vendor/topTherapist`, {
@@ -15,17 +17,13 @@ const TopTherapist = () => {
           "Content-Type": "application/json",
         },
         withCredentials: true,
-      }).then((response)=>{
-        JSON.stringify(response)
-        console.log(response.data.userlist)
-      setUserdata(response.data.userlist)
-      //  console.log(userdata)
+      }).then((response) => {
+        JSON.stringify(response);
+        setTherapistList(response.data); //  console.log(userdata)
       });
-     
     } catch (error) {
       console.log("Error fetching user data:", error);
     }
-
   }, []);
 
   var settings = {
@@ -58,9 +56,7 @@ const TopTherapist = () => {
           slidesToScroll: 1,
         },
       },
-      // You can unslick at a given breakpoint now by adding:
-      // settings: "unslick"
-      // instead of a settings object
+    
     ],
   };
 
@@ -76,25 +72,22 @@ const TopTherapist = () => {
         </p>
 
         <Slider {...settings}>
-          {userdata.map((user, index) => (
-               <Link to={`/counselor/${user.id}`}>
-  <Cards
-    key={index}
-    image={user.profile_img}
-    name={user.username}
-    degree="M.Phil in Clinical Psychology"
-    specialization="Stress, Anxiety, Depression, Relationship Issues, Grief & Loss, OCD"    
-    availabilityDate="Sep 27, 2023 5:00 PM"
-    />
-    </Link>
-))}
-          {/* <Cards
-            image={people}
-            name="Dr Akash Surendran"
-            degree="M.Phil in Clinical Psychology"
-            specialization="Stress, Anxiety, Depression, Relationship Issues, Grief & Loss, OCD"
-            availabilityDate="Sep 27, 2023 5:00 PM"
-          /> */}
+          {therapistList.map((therapist, index) => (
+              <Cards
+                key={index}
+                image={therapist.therapist_image} 
+                name={therapist.therapist_name}
+                id = {therapist.user}
+                degree={therapist.degree}
+                specialization={therapist &&
+                  therapist.categories &&
+                  therapist.categories.name}
+                availabilityDate="Sep 27, 2023 5:00 PM"
+              />
+                 
+          
+          ))}
+      
         </Slider>
       </div>
     </div>

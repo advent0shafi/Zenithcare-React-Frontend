@@ -8,7 +8,10 @@ const UserChatLayout = () => {
   return (
     <>
 <Navbar/>
-    <ChatUser/>
+<div className=''> 
+<ChatUser/>
+
+</div>
     </>
   )
 }

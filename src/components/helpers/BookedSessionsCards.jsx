@@ -31,7 +31,7 @@ const BookedSessionsCards = ({
   };
   const handleStatusUpdate = () => {
     console.log("here itrs here", id);
-    PublicAxios.put(`booking/bookings-update/${id}/`, { status: "cancel" })
+    PublicAxios.put(`booking/bookings-update/${id}/${vendor_id}`, { status: "cancel" })
       .then((response) => {
         console.log("Booking status updated successfully");
         console.log(response.data);
@@ -113,7 +113,7 @@ const BookedSessionsCards = ({
         </div>
         <div className="md:w-1/5 bg-white md:p-4 p-3 md:pl-9 pl-24">
           <div className="md:mt-24 mb-4  ">
-            <Link to={`/userChat/${user_id}/${vendor_id}`}>
+            <Link to={`/userChat?user_id=${user_id}&vendor_id=${vendor_id}&image=${image}&name=${name}`}>
               <a
                 href="#_"
                 class="relative mb-4 w-32 inline-flex items-center justify-center p-4 px-6 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
@@ -139,9 +139,7 @@ const BookedSessionsCards = ({
                 <span class="relative invisible"> {buttonText}</span>
               </a>
             </Link>
-            {/*  */}
             {renderButtons()}
-            {/*  */}
           </div>
         </div>
       </div>

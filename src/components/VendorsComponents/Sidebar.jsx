@@ -23,8 +23,7 @@ const Sidebar = () => {
          <Link to="/vendor/wallet-vendor"> <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size="sm"/></span>Vendor Wallet</li></Link>
          <Link to="/vendor/vendor-blog"> <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size="sm"/></span>Vendor Blog</li></Link>
 
-          <li className="p-4 hover:bg-[#2c3672] text-white text-lg"><span className='mr-3'><FontAwesomeIcon icon={faHouse} size="sm"/></span>Dashboard</li>
-          <div className="flex flex-col my-4 gap-4 text-white">
+          <div className="flex flex-col my-4 gap-4 text-gray-500">
             <button className="border text-gray-950 bg-white shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded-lg flex justify-center font-bold items-center bg-transparent px-6 gap-2 py-4">
 
               Logout

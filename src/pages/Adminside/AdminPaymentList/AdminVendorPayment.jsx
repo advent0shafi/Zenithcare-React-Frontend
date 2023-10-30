@@ -8,12 +8,10 @@ const AdminVendorPayment = () => {
     description: "",
   });
 
-  // State for search
   const [searchText, setSearchText] = useState("");
 
-  // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const transactionsPerPage = 5; // Adjust the number of items per page as needed
+  const transactionsPerPage = 5; 
 
   useEffect(() => {
     fetchVendorWalletData();
@@ -35,6 +33,15 @@ const AdminVendorPayment = () => {
 
   const handlePayment = (vendorId) => {
     // Add your payment handling logic here
+    console.log(vendorId);
+    PublicAxios.put(`vendor/pay-amount/${vendorId}/`, paymentData)
+      .then((response) => {
+        console.log(`Payment successful for vendor ID ${vendorId}`);
+        fetchVendorWalletData();
+      })
+      .catch((error) => {
+        console.error("Payment error", error);
+      });
   };
 
   // Function to search vendor wallets based on the search text

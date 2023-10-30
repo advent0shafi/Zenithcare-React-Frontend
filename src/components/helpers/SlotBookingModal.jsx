@@ -60,7 +60,7 @@ const user_Id = authstate.user_id
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader ><span className="text-center">HS</span></DialogHeader>
+        <DialogHeader ><span className="text-center"></span></DialogHeader>
         <DialogBody divider>
           <div className="border p-3">
             <h1 className="text-2xl text-center font-semibold mb-4">

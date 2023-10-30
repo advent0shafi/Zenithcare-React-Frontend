@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/landingPages/Navbar";
 import images from "./../../../assets/doctor.png";
 import image from "./../../../assets/logiko.png";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axiosInstance from "../../../axiosInstance";
 import FaqCards from "../../../components/helpers/FaqCards";
 import { DrawerPlacement } from "../../../components/helpers/Drawers";
@@ -12,8 +12,9 @@ const UserBookingLayout = () => {
   const [userdata, setUserData] = useState({});
   const [therapist, setTherapist] = useState({});
 
-  const { id } = useParams();
-  useEffect(() => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get('vendor_id');  useEffect(() => {
     try {
       axiosInstance
         .get(`vendor/profile/${id}`, {
@@ -40,7 +41,7 @@ const UserBookingLayout = () => {
       <div className="">
         <h2 className="sr-only">Steps</h2>
 
-        <div>
+        <div className="">
           <ol className="grid grid-cols-1 divide-x divide-gray-100 overflow-hidden rounded-lg border border-gray-100 text-sm text-gray-500 sm:grid-cols-3">
             <li className="flex items-center justify-center gap-2 p-4">
               <svg
@@ -119,7 +120,7 @@ const UserBookingLayout = () => {
           </ol>
         </div>
       </div>
-      <div className="p-12">
+      <div className="">
         <UserBooking payamount={therapist.hourly_rate} />
       </div>
     </div>

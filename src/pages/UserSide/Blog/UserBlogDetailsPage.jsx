@@ -69,7 +69,7 @@ const UserBlogDetailsPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     PublicAxios.post("/blog/comment-create/", {
       user: user_id,
       post: state.id,
@@ -84,7 +84,7 @@ const UserBlogDetailsPage = () => {
         console.error("Error creating comment:", error);
       });
   };
-  
+
 
   return (
     <div>
@@ -122,9 +122,8 @@ const UserBlogDetailsPage = () => {
           </div>
           <div className="flex items-center space-x-2">
             <button
-              className={`text-gray-500 hover:text-blue-500 ${
-                isLiked ? "text-red-500" : ""
-              }`}
+              className={`text-gray-500 hover:text-blue-500 ${isLiked ? "text-red-500" : ""
+                }`}
               onClick={handleLike}
             >
               <FontAwesomeIcon
@@ -144,25 +143,25 @@ const UserBlogDetailsPage = () => {
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-2">Comments</h3>
           <form onSubmit={handleSubmit}>
-      <textarea
-        value={commentText}
-        onChange={(e) => setCommentText(e.target.value)}
-        placeholder="Add your comment..."
-        className="w-full p-2 border rounded"
-      />
-      <button type="submit" className="mt-2 bg-blue-500 text-white p-2 rounded hover:bg-blue-700">
-        Add Comment
-      </button>
-    </form>
+            <textarea
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="Add your comment..."
+              className="w-full p-2 border rounded"
+            />
+            <button type="submit" className="mt-2 bg-blue-500 text-white p-2 rounded hover:bg-blue-700">
+              Add Comment
+            </button>
+          </form>
           <div className="mt-2 space-y-4">
-           { comments.map((comment) => (<div key={comment.id} className="bg-gray-100 p-3 rounded-lg">
+            {comments.map((comment) => (<div key={comment.id} className="bg-gray-100 p-3 rounded-lg">
               <p className="text-gray-700">
                 Comment by <span className="font-semibold">{comment.author_name}</span>
               </p>
               <p className="mt-2">{comment.text}</p>
             </div>))}
-           
-           
+
+
           </div>
         </div>
       </div>

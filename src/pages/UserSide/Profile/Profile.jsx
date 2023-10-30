@@ -15,8 +15,8 @@ const Profile = () => {
   const user_id = authstate.user_id;
   const [edit, setEdit] = useState(true); // Set to false initially
   const [userdata, setUserdata] = useState({
-    username: userData ? userData.username :"",
-    phone_number:userData? userData.phone_number:"",
+    username: userData ? userData.username : "",
+    phone_number: userData ? userData.phone_number : "",
   });
 
   useEffect(() => {
@@ -47,17 +47,19 @@ const Profile = () => {
       [e.target.name]: e.target.value,
     });
   };
- 
+
   const updateUserDetails = async (event) => {
     event.preventDefault();
     try {
-      await PublicAxios.put(`auth/update/${user_id}/`, userdata,{ headers: {
-        "Content-Type": "application/json",
-      },});
+      await PublicAxios.put(`auth/update/${user_id}/`, userdata, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       notify("User details have been updated.");
     } catch (error) {
       toast.error("An error occurred. Please try again.");
-      console.error('Error updating user', error);
+      console.error("Error updating user", error);
     }
   };
 
@@ -76,7 +78,9 @@ const Profile = () => {
 
       notify("Image has been updated.");
     } catch (error) {
-      toast.error("An error occurred while updating the image. Please try again.");
+      toast.error(
+        "An error occurred while updating the image. Please try again."
+      );
       console.log("Error: " + error);
     }
   };
@@ -149,27 +153,45 @@ const Profile = () => {
             <div className="text-center mt-20 border-b pb-12">
               <form onSubmit={updateUserDetails}>
                 <div className="w-full">
+                  <label
+                    htmlFor="username"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Username
+                  </label>
                   <input
                     type="text"
                     name="username"
-                    value={userdata.username}
+                    placeholder={userData.username}
                     onChange={handleInputChange}
-                    className="text-4xl border rounded-md shadow-md font-medium text-gray-700"
+                    className="text-4xl border rounded-md  font-medium text-gray-700"
                   />
                 </div>
+                <label
+                  htmlFor="email"
+                  className="block mt-3 text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
-               placeholder={userData.email}
-                  className="font-light text-gray-600 mt-3 border rounded-md shadow-md"
+                  placeholder={userData.email}
+                  className="font-light text-gray-600  border rounded-md "
                 />
                 <div className="w-full">
+                  <label
+                    htmlFor="phone_number"
+                    className="block mt-3  text-sm font-medium text-gray-700"
+                  >
+                    Phone Number
+                  </label>
                   <input
                     type="number"
                     name="phone_number"
-                    value={userdata.phone_number}
+                    placeholder={userData.phone_number}
                     onChange={handleInputChange}
-                    className="font-light text-gray-600 mt-3 border rounded-md shadow-md"
+                    className="font-light text-gray-600 border rounded-md "
                   />
                 </div>
                 <button className="bg-red-700 text-white w-auto mt-5 rounded-md p-1 hover:bg-red-900">
@@ -179,7 +201,10 @@ const Profile = () => {
             </div>
           )}
           <div className="text-center w-full">
-            <h1 onClick={() => setEdit(!edit)} className="text-blue-800 font-normal peer-hover:red-500 ">
+            <h1
+              onClick={() => setEdit(!edit)}
+              className="text-blue-800 font-normal peer-hover:red-500 "
+            >
               {edit ? "Edit" : "Cancel"}
             </h1>
           </div>

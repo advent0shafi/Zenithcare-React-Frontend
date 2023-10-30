@@ -1,9 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import PublicAxios from "../../../Axios/PublicAxios";
 
+
 const ChatUser = () => {
-  const { user_id, vendor_id } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const user_id = searchParams.get("user_id");
+  const vendor_id = searchParams.get("vendor_id");
+const image =  searchParams.get("image");
+const name =  searchParams.get("name");
+
   const [messages, setMessages] = useState([]);
   const [userId, setUser] = useState(user_id);
   const [messageInput, setMessageInput] = useState("");
@@ -73,7 +80,6 @@ const ChatUser = () => {
   }, []);
 
   const handleSendMessage = async () => {
-
     if (messageInput.trim() === "") return;
 
     try {
@@ -99,42 +105,75 @@ const ChatUser = () => {
     }
   };
 
- 
   useEffect(() => {
     setMessages((prevMessages) => [...prevMessages, ...websocketMessages]);
   }, [websocketMessages]);
   return (
     <>
-      <div className="flex h-screen antialiased text-gray-800">
-        <div className="flex flex-row h-full w-full overflow-x-hidden">
+      <div className="flex md:h-[500px]  antialiased text-gray-800">
+        <div className="flex flex-row h-full w-full  overflow-x-hidden">
           <div className="flex flex-col flex-auto h-full p-6">
-            <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
-              <div className="flex flex-col h-full overflow-x-auto mb-4">
+          
+
+          <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full p-4 rounded-2xl rounded-tr-2xl rounded-tl-2xl">
+          <div className="bg-white p-1 rounded-xl  flex justify-between">
+            <div className="flex gap-3">
+              <img src={`http://127.0.0.1:8000/media/${image}`}  alt=""  className="h-12 w-12 rounded-full bg-gray-50"/>
+              <div> <p className="text-base font-semibold">{name}</p>
+              <p className="text-xs">active recently</p>
+              </div>
+            </div>
+          </div>
+              <div className="flex flex-col  h-full overflow-x-auto mb-4">
                 <div className="flex flex-col h-full">
                   <div className="grid grid-cols-12 gap-y-2">
-                    
-                    {/* {messages.map((message, index) => (
+                    {messages.map((message, index) => (
                       <div
+                        onClick={() => {
+                          console.log(
+                            "Condition evaluation:",
+                            message.sender != vendor_id
+                          );
+                        }}
                         key={index}
                         className={
-                          message.sender == userId
-                            ? `col-start-6 col-end-13 p-3 rounded-lg`
-                            : `col-start-1 col-end-8 p-3 rounded-lg"`
+                          message.sender != userId
+                            ? "col-start-1 col-end-8 p-3 rounded-lg"
+                            : "col-start-6 col-end-13 p-3 rounded-lg"
                         }
                       >
-                        <div className="flex items-center justify-start flex-row-reverse">
+                        <div
+                          key={index}
+                          className={
+                            message.sender != userId
+                              ? "flex flex-row items-center"
+                              : "flex items-center justify-start flex-row-reverse"
+                          }
+                        >
                           <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                            A
+                            {message.sender != vendor_id ? (
+                              <div><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24" height="24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 4.5l-15 15m0 0h11.25m-11.25 0V8.25" />
+                            </svg>
+                            
+                            
+                            </div>
+                            ) : (
+                              <div><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
+                            </svg>
+                            </div>
+                            )}
                           </div>
                           <div
                             className={`relative mr-3 text-sm py-2 px-4 shadow rounded-xl ${
-                              message.sender === vendor_id
-                                ? " bg-white"
-                                : "bg-indigo-100"
+                              message.sender != userId
+                                ? "  bg-indigo-100"
+                                : " bg-white"
                             }`}
                           >
                             <div> {message.message_content}</div>
-                            <div className="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
+                            <div className="absolute text-xs bottom-0 left-0 -mb-5 mr-2 text-gray-500">
                               {new Date(message.timestamp).toLocaleTimeString(
                                 [],
                                 {
@@ -146,51 +185,7 @@ const ChatUser = () => {
                           </div>
                         </div>
                       </div>
-                    ))} */}
-                    {messages.map((message, index) => (
-                  <div
-                    onClick={() => {
-                      console.log(
-                        "Condition evaluation:",
-                        message.sender != vendor_id
-                      );
-                    }}
-                    key={index}
-                    className={
-                      message.sender != userId
-                        ? "col-start-1 col-end-8 p-3 rounded-lg"
-                        : "col-start-6 col-end-13 p-3 rounded-lg"
-                    }
-                  >
-                    <div
-                      key={index}
-                      className={
-                        message.sender != userId
-                          ? "flex flex-row items-center"
-                          : "flex items-center justify-start flex-row-reverse"
-                      }
-                    >
-                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                        A
-                      </div>
-                      <div
-                        className={`relative mr-3 text-sm py-2 px-4 shadow rounded-xl ${
-                          message.sender != userId
-                            ? "  bg-indigo-100"
-                            : " bg-white"
-                        }`}
-                      >
-                        <div> {message.message_content}</div>
-                        <div className="absolute text-xs bottom-0 left-0 -mb-5 mr-2 text-gray-500">
-                          {new Date(message.timestamp).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    ))}
                   </div>
                 </div>
               </div>

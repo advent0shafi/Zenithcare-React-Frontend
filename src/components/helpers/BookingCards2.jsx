@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import toast, { Toaster } from "react-hot-toast";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Radio } from "@material-tailwind/react";
+import { Radio, Button } from "@material-tailwind/react";
 
 const settings = {
   dots: true,
@@ -78,24 +78,58 @@ const BookingCards2 = ({
   return (
     <div className="p-4 mb-4">
       <Slider {...settings}>
-        {uniqueDates.map((date, index) => (
-          <div
-            key={index} // Use index as the key for unique dates
-            className={`date-box ${index === currentDateIndex ? "active" : ""}`}
-            onClick={() =>
-              handleSelectItem(
-                "Item X",
-                date,
-                dateData.find((item) => item.date === date).times,
-                dateData.find((item) => item.date === date).id
-              )
-            }
-          >
-            <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-              {date}
-            </button>
-          </div>
-        ))}
+        {uniqueDates.length === 0 ? (
+          <div className="no-available-date-message">No available date</div>
+        ) : (
+          uniqueDates.map((date, index) => {
+            const parsedDate = new Date(date);
+
+            const months = [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ];
+
+            const dayOfWeek = new Intl.DateTimeFormat("en", {
+              weekday: "short",
+            }).format(parsedDate);
+
+            const dayOfMonth = parsedDate.getDate();
+            const month = months[parsedDate.getMonth()];
+
+            const formattedDate = `${dayOfWeek} - ${dayOfMonth} - ${month}`;
+
+            return (
+              <div
+                key={index}
+                className={`date-box ${
+                  index === currentDateIndex ? "active" : ""
+                }`}
+                onClick={() =>
+                  handleSelectItem(
+                    "Item X",
+                    date,
+                    dateData.find((item) => item.date === date).times,
+                    dateData.find((item) => item.date === date).id
+                  )
+                }
+              >
+                <Button variant="outlined">
+                  <span className="text-sm">{formattedDate}</span>
+                </Button>
+              </div>
+            );
+          })
+        )}
       </Slider>
       <div className="times-container mt-6">
         {selectedDate && (
@@ -127,7 +161,7 @@ const BookingCards2 = ({
       <div className="mt-4">
         <button
           onClick={handleNextCards}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+          className="bg-[#172786] hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-md"
         >
           Continue
         </button>

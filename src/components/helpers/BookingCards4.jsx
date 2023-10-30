@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { Button } from "@material-tailwind/react";
+
 
 const BookingCards4 = ({ handleUserInfo, username }) => {
   const [formData, setFormData] = useState({
@@ -39,6 +41,10 @@ const BookingCards4 = ({ handleUserInfo, username }) => {
 
   return (
     <div className="p-6">
+      <div className="mb-3">
+     
+      </div>
+           
       <form onSubmit={handleSubmit}>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -172,16 +178,14 @@ const BookingCards4 = ({ handleUserInfo, username }) => {
             />
           </div>
         </div>
+      
         <button
-          type="submit"
-          className="bg-blue-900 p-2 rounded-md text-white font-bold"
-        >
-          Submit
-        </button>
-      </form>
-      <p className="text-green-800">
-        Included email support with Dr Pooja Sharma for 48-hours after session
-      </p>
+        type="sumit"
+        class="bg-[#051570] hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-md"
+      >
+        Continue
+      </button>      </form>
+
       <Toaster />
     </div>
   );

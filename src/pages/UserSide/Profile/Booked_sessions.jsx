@@ -49,12 +49,12 @@ const Booked_sessions = () => {
     <div>
       <Navbar />
       <div className="bg-white p-4">
-        <Filters onSearch={(term) => setSearchTerm(term)} />
+        <Filters isFilter={false} onSearchQueryChange={(term) => setSearchTerm(term)} />
         {!filteredData.length && <NoData />}
         {filteredData.slice(pageNumber * usersPerPage, (pageNumber + 1) * usersPerPage).map((data, index) => (
           <BookedSessionsCards
             key={index}
-            name={`Dr ${data.therapist_name}`}
+            name={`${data.therapist_name}`}
             sessions={data.mode_of_session}
             date={data.date_of_booking}
             time={data.time}

@@ -51,7 +51,7 @@ const BookingCards = ({ onSelect, selectedItems }) => {
 
       <button
         onClick={handleNextCard}
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+        class="bg-[#051570] hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-md"
       >
         Continue
       </button>

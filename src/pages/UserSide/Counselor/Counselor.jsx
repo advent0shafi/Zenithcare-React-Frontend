@@ -1,65 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../../components/landingPages/Navbar';
-import ConCard from '../../../components/helpers/ConCard';
-import Footer from '../../../components/landingPages/Footer';
-import HCards from '../../../components/helpers/HCards';
-import Buttons from '../../../components/helpers/Buttons';
-import Filters from '../../../components/helpers/Filters';
-import axiosInstance from '../../../axiosInstance';
+import React, { useState, useEffect } from "react";
+import Navbar from "../../../components/landingPages/Navbar";
+import ConCard from "../../../components/helpers/ConCard";
+import Footer from "../../../components/landingPages/Footer";
+import HCards from "../../../components/helpers/HCards";
+import Buttons from "../../../components/helpers/Buttons";
+import Filters from "../../../components/helpers/Filters";
+import PublicAxios from "../../../Axios/PublicAxios";
+import Loading from "../../../components/Spinner/Loading";
 
 const Counselor = () => {
-  const [userdata, setUserdata] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-
+  const [therapistList, setTherapistList] = useState([]);
+  const [loading,setLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterLanguage, setFilterLanguage] = useState("");
   useEffect(() => {
+    setLoading(true)
     try {
-      axiosInstance
-        .get(`vendor/topTherapist`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          JSON.stringify(response);
-          console.log(response.data.userlist);
-          setUserdata(response.data.userlist);
-        });
+      PublicAxios.get(`vendor/topTherapist`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }).then((response) => {
+        JSON.stringify(response);
+        console.log(response.data);
+        setTherapistList(response.data);
+        setLoading(false)
+      });
     } catch (error) {
-      console.log('Error fetching user data:', error);
+      console.log("Error fetching user data:", error);
+      setLoading(true)
     }
   }, []);
 
-  const filteredUserdata = userdata.filter((user) =>
-    user.username.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredTherapistdata = therapistList.filter((therapist) => {
+    const nameMatch = therapist.therapist_name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const categoryMatch =
+      filterCategory === "" || therapist.categories.name === filterCategory;
+    const languageMatch =
+      filterLanguage === "" ||
+      therapist.languages.some(
+        (language) => language.language === filterLanguage
+      );
+
+    return nameMatch && categoryMatch && languageMatch;
+  });
 
   return (
     <div>
       <Navbar />
-
-      <div className='bg-white p-4'>
-        <div className='rounded p-5'>
+      {loading &&<Loading/>}
+      <div className="bg-white p-4">
+        <div className="rounded p-5">
           <Filters
             searchQuery={searchQuery}
             onSearchQueryChange={(value) => setSearchQuery(value)}
+            filterCategory={filterCategory}
+            isFilter={true}
+            onFilterCategoryChange={(value) => setFilterCategory(value)}
+            filterLanguage={filterLanguage}
+            onFilterLanguageChange={(value) => setFilterLanguage(value)}
           />
         </div>
 
-        {filteredUserdata.map((user, index) => (
-          
+        {filteredTherapistdata.map((therapist, index) => (
           <HCards
             key={index}
-            name={`Dr ${user.username}`}
-            certification='® Certified & Verified'
-            specializations={['Top NIMHANS Psychiatrist', 'Specialization 1', 'Specialization 2']}
-            buttonText='View Profile'
-            id={user.id}
-            image={user.profile_img}
+            name={`${therapist.therapist_name}`}
+            certification="® Certified & Verified"
+            specializations={
+              therapist && therapist.categories && therapist.categories.name
+            }
+            buttonText="View Profile"
+            language={therapist.languages.map((language, index) => (
+              <span key={index}>{language.language},</span>
+            ))}
+            id={therapist.user}
+            image={therapist.therapist_image}
           />
         ))}
       </div>
-
       <Footer />
     </div>
   );

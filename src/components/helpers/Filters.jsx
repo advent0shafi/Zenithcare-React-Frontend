@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 
-const Filters = ({ searchQuery, onSearchQueryChange }) => {
+const Filters = ({
+  searchQuery,
+  onSearchQueryChange,
+  filterCategory, // Add filterCategory as a prop
+  onFilterCategoryChange, // Add onFilterCategoryChange as a prop
+  filterLanguage, 
+  isFilter,// Add filterLanguage as a prop
+  onFilterLanguageChange, // Add onFilterLanguageChange as a prop
+}) => {
   const handleSearchChange = (event) => {
     onSearchQueryChange(event.target.value);
   };
@@ -20,8 +28,8 @@ const Filters = ({ searchQuery, onSearchQueryChange }) => {
                 Quick Search For Therapist
               </h2>
             </div>
-            <div className="flex items-center sm:justify-center">
-              <form className="flex">
+            <div className="md:flex items-center sm:justify-center">
+              <form className="md:flex ">
                 <input
                   placeholder="Search by username"
                   type="search"
@@ -29,12 +37,47 @@ const Filters = ({ searchQuery, onSearchQueryChange }) => {
                   value={searchQuery}
                   onChange={handleSearchChange}
                 />
-                <button
-                  type="submit"
-                  className="inline-flex items-center bg-[#051570] justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md md:w-auto bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
+               { isFilter &&<select
+                  value={filterLanguage}
+                  onChange={(e) => onFilterLanguageChange(e.target.value)}
+                  className="w-48 h-12 px-4 mb-3 text-gray-500 border-2 border-gray-400 rounded appearance-none"
                 >
-                  Search
-                </button>
+                  <option value="">All Languages</option>
+                  {["Marathi", "Hindi", "Tamil", "English", "Malayalam"].map(
+                    (language) => (
+                      <option key={language} value={language}>
+                        {language}
+                      </option>
+                    )
+                  )}
+                </select>}
+                { isFilter && <select
+                  value={filterCategory}
+                  onChange={(e) => onFilterCategoryChange(e.target.value)}
+                  className="w-48 h-12 px-4 mb-3 text-gray-500 border-2 border-gray-400 rounded appearance-none"
+                >
+                  <option value="">All Categories</option>
+                  {[
+                    "Gender Identity and LGBTQ+ Issues",
+                    "Child and Adolescent Therapy",
+                    "Obsessive-Compulsive Disorder (OCD)",
+                    "Addiction and Substance Abuse",
+                    "Eating Disorders",
+                    "Grief and Loss",
+                    "Self-Esteem and Confidence",
+                    "Stress Management",
+                    "Relationship and Family Issues",
+                    "Trauma and PTSD",
+                    "Depression and Mood Disorders",
+                    "Anxiety Disorders",
+                  ].map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>}
+
+               
               </form>
             </div>
           </div>

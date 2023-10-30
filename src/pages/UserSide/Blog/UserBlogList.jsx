@@ -3,33 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import PublicAxios from "../../../Axios/PublicAxios";
 import { Link } from "react-router-dom";
-const posts = [
-  {
-    id: 1,
-    title: "Boost your conversion rate",
-    href: "#",
-    description:
-      "Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.",
-    date: "Mar 16, 2020",
-    datetime: "2020-03-16",
-    category: { title: "Marketing", href: "#" },
-    author: {
-      name: "Michael Foster",
-      role: "Co-Founder / CTO",
-      href: "#",
-      imageUrl:
-        "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-  },
-  // More posts...
-];
+import Loading from "../../../components/Spinner/Loading";
+
+
 const UserBlogList = () => {
   const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleSummit = (id) => {
-    console.log(id, "-------");
-  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +34,9 @@ const UserBlogList = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>  
+<Loading/>      
+  </div>;
   }
 
   return (
@@ -63,6 +46,7 @@ const UserBlogList = () => {
           <div className="mx-auto max-w-2xl lg:mx-0">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               From the blog
+          
             </h2>
             <p className="mt-2 text-lg leading-8 text-gray-600">
               Learn how to grow your business with our expert advice.
@@ -73,13 +57,13 @@ const UserBlogList = () => {
               <Link to="/blog-details" state={post}>
                 <article
                   key={post.id}
-                  className="flex max-w-xl flex-col items-start justify-between bg-white border rounded-lg  overflow-hidden"
+                  className="flex max-w-xl flex-col items-start h-[500px] justify-between bg-white border rounded-lg  overflow-hidden"
                 >
-                  <div className="flex justify-center items-center">
+                  <div className="">
                     <img
                       src={post.image}
                       alt={post.title}
-                      className="object-cover w-[200px] h-[200px] rounded-t-lg" // Set your desired width and height here
+                      className="h-60 w-96 rounded-t-lg" 
                     />
                   </div>
                   <div className="p-4">
@@ -95,7 +79,7 @@ const UserBlogList = () => {
                         href=""
                         className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                       >
-                        gjhgj
+                       ZenithCare Blog
                       </a>
                     </div>
                     <div className="group relative">
@@ -126,7 +110,7 @@ const UserBlogList = () => {
                             {post.author_name}
                           </a>
                         </p>
-                        <p className="text-gray-600"></p>
+                        <p className="text-gray-600">Author</p>
                       </div>
                     </div>
                   </div>

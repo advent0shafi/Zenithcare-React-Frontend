@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../axiosInstance";
 import PublicAxios from "../../Axios/PublicAxios";
-
+import Select from "react-select";
 
 const VendorUpdateMainBody = () => {
   const authstate = useSelector((state) => state.auth);
@@ -14,14 +14,17 @@ const VendorUpdateMainBody = () => {
   const [catogery, setcatogery] = useState([]);
   const [languages, setlanguage] = useState([]);
   const [therapist, setTherapist] = useState({});
+
   const [formData, setFormData] = useState({
     username: user_id,
     bio: "",
-    certifications: "",
+    degree: "",
+    university: "",
+    certifications: {},
     categories: "",
-    languages: "",
+    languages: [],
     experience_years: "", // Change: Update field name to match backend
-    hourly_rate:therapist.hourly_rate,
+    hourly_rate: "",
     address: {
       building: "",
       street: "",
@@ -51,7 +54,6 @@ const VendorUpdateMainBody = () => {
   const handleAddressChange = (e) => {
     const { name, value } = e.target;
 
-    // Update the address in the form data
     setFormData({
       ...formData,
       address: {
@@ -60,12 +62,20 @@ const VendorUpdateMainBody = () => {
       },
     });
   };
+
+  const handleLanguageChange = (selectedLanguages) => {
+    const selectedLanguageIds = selectedLanguages.map((lang) => lang.value);
+    setFormData({
+      ...formData,
+      languages: selectedLanguageIds,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
 
-    // Append certifications file to formDataToSend
     formDataToSend.append("certifications", formData.certifications);
 
     for (const key in formData) {
@@ -84,7 +94,7 @@ const VendorUpdateMainBody = () => {
     }
 
     try {
-      const response = await axiosInstance.put(
+      const response = await PublicAxios.post(
         "vendor/add-therapist/",
         formDataToSend,
         {
@@ -96,7 +106,6 @@ const VendorUpdateMainBody = () => {
       );
 
       console.log("Therapist added successfully:", response.data);
-    
       navigate(`/vendor/profile`);
     } catch (error) {
       console.error("Error adding therapist:", error);
@@ -112,28 +121,39 @@ const VendorUpdateMainBody = () => {
       }).then((response) => {
         JSON.stringify(response);
         setTherapist(response.data.therapist);
-        const { id, bio, certifications, categories, languages, experience_years, hourly_rate, address, is_certified } = response.data.therapist;
+        const {
+          id,
+          bio,
+          certifications,
+          categories,
+          degree,
+          university,
+          languages,
+          experience_years,
+          hourly_rate,
+          address,
+          is_certified,
+        } = response.data.therapist;
         setFormData({
-            ...formData,
-            username: user_id,
-            bio: bio,
-            certifications: certifications,
-            categories: categories,
-            languages: languages,
-            experience_years: experience_years,
-            hourly_rate: hourly_rate,
-            address: {
-              building: address.building,
-              street: address.street,
-              district: address.district,
-              state: address.state,
-              zipcode: address.zipcode,
-            },
-            isCertified: is_certified,
-          });
-        
-
-
+          ...formData,
+          username: user_id,
+          bio: bio,
+          degree: degree,
+          university: university,
+          certifications: certifications,
+          categories: categories,
+          languages: languages.map((lang) => lang.id),
+          experience_years: experience_years,
+          hourly_rate: hourly_rate,
+          address: {
+            building: address.building,
+            street: address.street,
+            district: address.district,
+            state: address.state,
+            zipcode: address.zipcode,
+          },
+          isCertified: is_certified,
+        });
       });
     } catch (error) {
       console.log("Error fetching user data:", error);
@@ -167,71 +187,29 @@ const VendorUpdateMainBody = () => {
     fetchData(); // Call the fetchData function
   }, []);
 
-const handletest = ()=>{
-    console.log(therapist)
-}
+  const handletest = () => {
+    console.log(therapist);
+  };
 
   return (
     <>
-      <div className="fixed top-0 w-full z-50 bg-white shadow-md">
-      </div>
-
-      <div className="flex flex-col md:flex-row md:p-14 ">
+      <div className="flex flex-col md:flex-row md:p-12 ">
         <div className="w-full p-12 mt-14">
           <div className="w-full shadow-lg">
             <div className="p-5 border">
+              <div className="">
+                <div className="text-center">
+                  <h1 className="text-2xl font-medium ">
+                    Please update the following details
+                  </h1>
+                  <p className="text-sm text-gray-600">
+                    Please provide the necessary information to update the
+                    therapist's profile.
+                  </p>
+                </div>
+              </div>
               <div className="space-y-12">
                 <form onSubmit={handleSubmit}>
-                  {/* Photo */}
-                  <div className="col-span-full">
-                    <label
-                      htmlFor="photo"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Photo
-                    </label>
-                    <div className="mt-2 flex items-center gap-x-3">
-                      {userdata.profile_img ? (
-                        <div className="rounded-full">
-                          <img
-                            className="h-12 w-12 rounded-full"
-                            src={`http://127.0.0.1:8000${userdata.profile_img}`}
-                          />
-                        </div>
-                      ) : (
-                        <UserCircleIcon
-                          className="h-12 w-12 text-gray-300"
-                          aria-hidden="true"
-                        />
-                      )}
-
-                      <button
-                      onClick={handletest}
-                        type="button"
-                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                      >
-                        Change
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Username */}
-                  <div className="mb-4">
-                    <label
-                      htmlFor="username"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Username
-                    </label>
-                    <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      placeholder={userdata .username}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-
                   {/* Bio */}
                   <div className="mb-4">
                     <label
@@ -244,180 +222,12 @@ const handletest = ()=>{
                       id="bio"
                       name="bio"
                       value={formData.bio}
-               placeholder={therapist.bio}
                       onChange={handleInputChange}
                       className="mt-1 p-2 w-full border rounded-md"
                     />
                   </div>
 
                   {/* Certifications */}
-
-                  {/* Categories */}
-                  <div className="mb-4">
-                    <label
-                      htmlFor="categories"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Categories
-                    </label>
-                    <select
-                      id="categories"
-                      name="categories"
-                      value={formData.categories}
-                      onChange={handleInputChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    >
-                      <option value="">Select a category</option>
-                      {catogery.map((catogery, index) => (
-                        <option key={index} value={catogery.id}>
-                          {catogery.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Languages */}
-                  <div className="mb-4">
-                    <label
-                      htmlFor="languages"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Languages
-                    </label>
-                    <select
-                      id="languages"
-                      name="languages"
-                      value={formData.languages}
-                      onChange={handleInputChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    >
-                      <option value="">Select a language</option>
-                      {languages.map((language, index) => (
-                        <option key={index} value={language.id}>
-                          {language.language}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Experience Years */}
-                  <div className="mb-4">
-                    <label
-                      htmlFor="experienceYears"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Experience Years
-                    </label>
-                    <input
-                      type="text"
-                      id="experience_years"
-                      name="experience_years"
-                      value={formData.experience_years}
-                      onChange={handleInputChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-
-                  {/* Hourly Rate */}
-                  <div className="mb-4">
-                    <label
-                      htmlFor="hourlyRate"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Hourly Rate
-                    </label>
-                    <input
-                      type="text"
-                      id="hourly_rate"
-                      name="hourly_rate"
-                      value={formData.hourly_rate}
-                      onChange={handleInputChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-
-                  {/* Address */}
-                  <div className="mb-4">
-                    <label
-                      htmlFor="building"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Building
-                    </label>
-                    <input
-                      type="text"
-                      id="building"
-                      name="building"
-                      value={formData.address.building}
-                      onChange={handleAddressChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="street"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Street
-                    </label>
-                    <input
-                      type="text"
-                      id="street"
-                      name="street"
-                      value={formData.address.street}
-                      onChange={handleAddressChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="district"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      District
-                    </label>
-                    <input
-                      type="text"
-                      id="district"
-                      name="district"
-                      value={formData.address.district}
-                      onChange={handleAddressChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="state"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      State
-                    </label>
-                    <input
-                      type="text"
-                      id="state"
-                      name="state"
-                      value={formData.address.state}
-                      onChange={handleAddressChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="zipcode"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Zipcode
-                    </label>
-                    <input
-                      type="text"
-                      id="zipcode"
-                      name="zipcode"
-                      value={formData.address.zipcode}
-                      onChange={handleAddressChange}
-                      className="mt-1 p-2 w-full border rounded-md"
-                    />
-                  </div>
-
                   <div className="mb-4">
                     <label
                       htmlFor="certifications"
@@ -434,6 +244,229 @@ const handletest = ()=>{
                       accept=".pdf,.doc,.docx"
                     />
                   </div>
+
+                  {/* Categories */}
+                  <div class="md:flex mb-4 gap-3">
+                    <div class="md:w-1/2">
+                      <div className="">
+                        <label
+                          htmlFor="categories"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Categories
+                        </label>
+                        <select
+                          id="categories"
+                          name="categories"
+                          value={formData.categories}
+                          onChange={handleInputChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        >
+                          <option value="">Select a category</option>
+                          {catogery.map((catogery, index) => (
+                            <option key={index} value={catogery.id}>
+                              {catogery.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="md:w-1/2">
+                      {/* Languages */}
+                      <div className="mt-1">
+                        <label
+                          htmlFor="categories"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Languages
+                        </label>
+                        <Select
+                          isMulti
+                          options={languages.map((language) => ({
+                            value: language.id,
+                            label: language.language,
+                          }))}
+                          onChange={handleLanguageChange}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Experience Years and Hourly Rate */}
+                  <div class="md:flex mb-4 gap-3">
+                    <div class="md:w-1/2">
+                      <div className="">
+                        <label
+                          htmlFor="experience_years"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Experience Years
+                        </label>
+                        <input
+                          type="text"
+                          id="experience_years"
+                          name="experience_years"
+                          value={formData.experience_years}
+                          onChange={handleInputChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                    <div class="md:w-1/2">
+                      <div className="">
+                        <label
+                          htmlFor="hourly_rate"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Hourly Rate
+                        </label>
+                        <input
+                          type="text"
+                          id="hourly_rate"
+                          name="hourly_rate"
+                          value={formData.hourly_rate}
+                          onChange={handleInputChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:flex mb-4 gap-3">
+                    <div class="md:w-1/2">
+                      {/* Degree */}
+                      <div className="">
+                        <label
+                          htmlFor="degree"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Highest Qualifications
+                        </label>
+                        <input
+                          type="text"
+                          id="degree"
+                          name="degree"
+                          value={formData.degree}
+                          onChange={handleInputChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                    <div class="md:w-1/2">
+                      {/* University */}
+                      <div className="">
+                        <label
+                          htmlFor="university"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          University
+                        </label>
+                        <input
+                          type="text"
+                          id="university"
+                          name="university"
+                          value={formData.university}
+                          onChange={handleInputChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {/* Address */}
+                  <div class="md:flex mb-4 gap-3">
+                    <div class="w-1/3  ">
+                      <div className="">
+                        <label
+                          htmlFor="building"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Building
+                        </label>
+                        <input
+                          type="text"
+                          id="building"
+                          name="building"
+                          value={formData.address.building}
+                          onChange={handleAddressChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                    <div class="w-1/3  ">
+                      <div className="">
+                        <label
+                          htmlFor="street"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Street
+                        </label>
+                        <input
+                          type="text"
+                          id="street"
+                          name="street"
+                          value={formData.address.street}
+                          onChange={handleAddressChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                    <div class="w-1/3  ">
+                      <div className="">
+                        <label
+                          htmlFor="district"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          District
+                        </label>
+                        <input
+                          type="text"
+                          id="district"
+                          name="district"
+                          value={formData.address.district}
+                          onChange={handleAddressChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:flex mb-4 gap-3">
+                    <div class="md:w-1/2">
+                      <div className="">
+                        <label
+                          htmlFor="state"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          State
+                        </label>
+                        <input
+                          type="text"
+                          id="state"
+                          name="state"
+                          value={formData.address.state}
+                          onChange={handleAddressChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                    <div class="md:w-1/2">
+                      <div className="">
+                        <label
+                          htmlFor="zipcode"
+                          className="block text-sm font-medium text-gray-600"
+                        >
+                          Zipcode
+                        </label>
+                        <input
+                          type="text"
+                          id="zipcode"
+                          name="zipcode"
+                          value={formData.address.zipcode}
+                          onChange={handleAddressChange}
+                          className="mt-1 p-2 w-full border rounded-md"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Submit button */}
                   <div className="mt-4">
                     <button
