@@ -21,7 +21,6 @@ const VendorHome = () => {
         </div>
 
         <div className="w-full md:w-10/12 mt-24">
-        <AdminBody/>
         </div>
       </div>
 

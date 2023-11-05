@@ -1,24 +1,17 @@
 import React from "react";
 import AdminSidebar from "../../../components/AdminHelpers/AdminSidebar";
 import AdminHeader from "../../../components/AdminHelpers/AdminHeader";
-import UserTable from "../../../components/AdminHelpers/AdminUserList/UserTable";
-const UserList = () => {
-  const urlEndpoint = "userlist";
-  const button_endpoint = "block";
+import AdminHome from "./AdminHome";
 
+const AdminHomeLayout = () => {
   return (
-   
-      <div>
+    <div>
       <main className="relative h-screen overflow-hidden bg-gray-100 dark:bg-gray-800">
         <div className="flex items-start justify-between">
           <AdminSidebar/>
           <div className="flex flex-col w-full md:space-y-4">
             <AdminHeader/>
-            <UserTable
-                urlEndpoint={urlEndpoint}
-                Button_Endpoint={button_endpoint}
-                IsTherapist = {true}
-              />
+            <AdminHome/>
           </div>
         </div>
       </main>
@@ -26,4 +19,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default AdminHomeLayout;

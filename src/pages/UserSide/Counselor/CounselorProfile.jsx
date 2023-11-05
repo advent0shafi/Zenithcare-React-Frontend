@@ -16,6 +16,10 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
+
+
 
 export function CounselorProfile({ therapist_id }) {
   const [size, setSize] = React.useState(null);
@@ -23,6 +27,16 @@ export function CounselorProfile({ therapist_id }) {
   const [userdata, setUserData] = useState({});
   const [therapist, setTherapist] = useState({});
   const [language, setLanguage] = useState([]);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportContent, setReportContent] = useState("");
+  const authstate = useSelector((state) => state.auth);
+  const user_id = authstate.user_id;
+  const [report, setReport] = useState({
+    therapist: therapist_id, // You may need to fetch the therapist user ID dynamically
+    reported_by:user_id,
+    reason: "",
+    description: "",
+  });
 
   useEffect(() => {
     try {
@@ -36,7 +50,7 @@ export function CounselorProfile({ therapist_id }) {
         // console.log(response.data);
         setTherapist(response.data.therapist);
         setLanguage(response.data.therapist.languages);
-        console.log(response.data.therapist);
+        console.log(response.data);
         setUserData(response.data);
       });
     } catch (error) {
@@ -46,6 +60,39 @@ export function CounselorProfile({ therapist_id }) {
   const handleOpen = (value) => {
     console.log(vendor_id);
     setSize(value);
+  };
+
+  // const handleReport = () => {
+  //   setIsReportModalOpen(false);
+  //   setReportContent("");
+  // };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setReport({
+      ...report,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+
+    PublicAxios.post('adminside/reports-create/', report)
+      .then(response => {
+        // Handle success
+        console.log('Report submitted:', response.data);
+        toast.success('reported this therapist');
+        setIsReportModalOpen(false);
+      })
+      .catch(error => {
+        // Handle error
+        console.error('Error submitting report:', error);
+        toast.success('reporting failed');
+        setIsReportModalOpen(false);
+      });
+ 
   };
 
   return (
@@ -88,7 +135,7 @@ export function CounselorProfile({ therapist_id }) {
                     <div class="w-1/3 bg-white rounded-full overflow-hidden">
                       <img
                         className="rounded-full "
-                        src={`http://127.0.0.1:8000${userdata.profile_img}`}
+                        src={`https://www.zenith-care.online${userdata.profile_img}`}
                         alt="no image"
                       />
                     </div>
@@ -190,7 +237,6 @@ export function CounselorProfile({ therapist_id }) {
                         </div>
                       </div>
                     </div>
-                    {/* sdfhsdgjg */}
                   </div>
                 </div>
               </div>
@@ -312,7 +358,67 @@ export function CounselorProfile({ therapist_id }) {
                   </p>
                 </div>
               </div>
+              <button
+                onClick={() => setIsReportModalOpen(true)}
+                className="text-red-600 hover:underline hover:text-red-800 cursor-pointer"
+              >
+                Report
+              </button>
             </div>
+          </div>
+        </DialogBody>
+      </Dialog>
+      <Dialog
+        open={isReportModalOpen}
+        size="md"
+        handler={() => setIsReportModalOpen(false)}
+      >
+        <DialogHeader>    <h2 className="text-2xl font-bold mb-4">Therapist Report</h2></DialogHeader>
+        <DialogBody>
+          <div className="p-4">
+        
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label
+                  htmlFor="reason"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Reason:
+                </label>
+                <input
+                  type="text"
+                  id="reason"
+                  name="reason"
+                  value={report.reason}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Description:
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={report.description}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                  rows="4"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"
+              >
+                Submit Report
+              </button>
+            </form>
           </div>
         </DialogBody>
       </Dialog>

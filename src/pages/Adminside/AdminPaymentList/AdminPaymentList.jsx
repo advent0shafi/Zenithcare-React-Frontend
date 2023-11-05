@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PublicAxios from "../../../Axios/PublicAxios";
-
+import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
 const AdminPaymentList = () => {
   const [payments, setPayment] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -10,7 +10,7 @@ const AdminPaymentList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await PublicAxios.get(`payment/payment-list`, {
+        const response = await PrivateAxios.get(`payment/payment-list`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -44,7 +44,7 @@ const AdminPaymentList = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="px-4 pb-24 h-screen overflow-scroll md:px-6">
       <h1 className="text-3xl font-bold mb-4 text-blue-700">Payment List</h1>
       <input
         className="mb-4 p-2 border border-blue-300 rounded-md"
@@ -53,93 +53,121 @@ const AdminPaymentList = () => {
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
       />
-      <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200 shadow-md">
-  <thead className="bg-gray-50">
-    <tr>
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Payment ID
-      </th>
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Amount
-      </th>
-     
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Payment Date
-      </th>
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        User
-      </th>
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Therapist
-      </th>
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Booked ID
-      </th>
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Booked Date
-      </th>
-      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-        Booked Slot
-      </th>
-    </tr>
-  </thead>
-  <tbody className="bg-white divide-y divide-gray-200">
-    {currentPayments.map((payment) => (
-      <tr key={payment.payment_id}>
-        <td className="px-6 py-4 whitespace-nowrap">
-          {payment.payment_id.substring(0, 7)}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">{payment.amount}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{payment.payment_date}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{payment.user}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{payment.vendor_user}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{payment.booked_id}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{payment.booked_date}</td>
-        <td className="px-6 py-4 whitespace-nowrap">{payment.booked_slote}</td>
-      </tr>
-    ))}
-  </tbody>
-</table>
 
-      </div>
-      <div className="mt-4 flex justify-between">
-        <div>
-          <span>
-            Page{" "}
-            <strong>
-              {currentPage} of{" "}
-              {Math.ceil(filteredPayments.length / transactionsPerPage)}
-            </strong>{" "}
-          </span>
-        </div>
-        <div className="space-x-2">
-          <button
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-            className={`px-3 py-1 rounded-lg ${
-              currentPage === 1
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
-          >
-            Previous
-          </button>
-          <button
-            onClick={() => paginate(currentPage + 1)}
-            disabled={
-              currentPage ===
-              Math.ceil(filteredPayments.length / transactionsPerPage)
-            }
-            className={`px-3 py-1 rounded-lg ${
-              currentPage ===
-              Math.ceil(filteredPayments.length / transactionsPerPage)
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
-          >
-            Next
-          </button>
+      <div className="w-full ">
+        <div className="relative w-full px-4 py-6 bg-white shadow-lg dark:bg-gray-700">
+          <div className="text-center">
+            <h4 className="text-gray-700 font-semibold text-lg">
+              Past 5 Payments{" "}
+            </h4>
+          </div>
+          <div className="bg-white shadow-md rounded my-6 overflow-x-auto">
+            <table className="min-w-full">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    Payment ID
+                  </th>
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    Amount
+                  </th>
+
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    Payment Date
+                  </th>
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    User
+                  </th>
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    Booked ID
+                  </th>
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    Booked Date
+                  </th>
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    Booked Slot
+                  </th>
+                  <th className="px-4 py-2 bg-gray-100 text-gray-600 border-b">
+                    Vendor User
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="">
+                {currentPayments.map((payment, index) => (
+                  <tr key={index}>
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">{payment.payment_id}</span>
+                    </td>
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">${payment.amount}</span>
+                    </td>
+
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">
+                        {new Date(payment.payment_date).toLocaleString()}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">{payment.user}</span>
+                    </td>
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">{payment.booked_id}</span>
+                    </td>
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">
+                        {new Date(payment.booked_date).toLocaleDateString()}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">{payment.booked_slote}</span>
+                    </td>
+                    <td className="px-4 py-3 border">
+                      <span className="text-sm">{payment.vendor_user}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-4 flex justify-between">
+            <div>
+              <span>
+                Page{" "}
+                <strong>
+                  {currentPage} of{" "}
+                  {Math.ceil(filteredPayments.length / transactionsPerPage)}
+                </strong>{" "}
+              </span>
+            </div>
+            <div className="space-x-2">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`px-3 py-1 rounded-lg ${
+                  currentPage === 1
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={
+                  currentPage ===
+                  Math.ceil(filteredPayments.length / transactionsPerPage)
+                }
+                className={`px-3 py-1 rounded-lg ${
+                  currentPage ===
+                  Math.ceil(filteredPayments.length / transactionsPerPage)
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -147,4 +175,3 @@ const AdminPaymentList = () => {
 };
 
 export default AdminPaymentList;
-

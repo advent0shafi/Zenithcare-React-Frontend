@@ -106,7 +106,7 @@ const VendorUpdateMainBody = () => {
       );
 
       console.log("Therapist added successfully:", response.data);
-      navigate(`/vendor/profile`);
+      navigate(`/vendor/`);
     } catch (error) {
       console.error("Error adding therapist:", error);
     }
@@ -193,8 +193,8 @@ const VendorUpdateMainBody = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row md:p-12 ">
-        <div className="w-full p-12 mt-14">
+      <div className="flex flex-col md:flex-row md:p-1 ">
+        <div className="w-full p-5 ">
           <div className="w-full shadow-lg">
             <div className="p-5 border">
               <div className="">

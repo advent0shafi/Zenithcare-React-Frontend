@@ -6,15 +6,17 @@ import AdminSidebar from '../../../components/AdminHelpers/AdminSidebar';
 const AdminPaymentLayout = () => {
   return (
     <>
-      <main className="">
+       <div>
+      <main className="relative h-screen overflow-hidden bg-gray-100 dark:bg-gray-800">
         <div className="flex items-start justify-between">
-          <AdminSidebar />
-          <div className="flex flex-col w-full md:w-3/4"> {/* Adjust the width here */}
-            <AdminHeader />
+          <AdminSidebar/>
+          <div className="flex flex-col w-full md:space-y-4">
+            <AdminHeader/>
               <AdminPaymentList />
           </div>
         </div>
       </main>
+      </div>
     </>
   );
 };

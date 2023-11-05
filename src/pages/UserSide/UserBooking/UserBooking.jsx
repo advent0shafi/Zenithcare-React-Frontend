@@ -262,7 +262,7 @@ const UserBooking = ({ payamount }) => {
             {showCard3 &&
               (user_id ? (
                 <form
-                  action={`${BASE_URL}/payment/create-checkout-session`}
+                  action={`${BASE_URL}payment/create-checkout-session`}
                   method="POST"
                 >
                   <input type="hidden" name="Id" value={id} />
@@ -323,7 +323,7 @@ const UserBooking = ({ payamount }) => {
             {showCard3 &&
               (user_id ? (
                 <form
-                  action={`${BASE_URL}/payment/create-checkout-session`}
+                  action={`${BASE_URL}payment/create-checkout-session`}
                   method="POST"
                 >
                   <input type="hidden" name="Id" value={id} />

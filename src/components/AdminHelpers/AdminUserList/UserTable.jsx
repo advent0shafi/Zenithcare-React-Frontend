@@ -15,27 +15,35 @@ import {
   CardFooter,
   Tabs,
   TabsHeader,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
   Tab,
   Avatar,
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
-import axiosInstance from "../../../axiosInstance";
-import PublicAxios from "../../../Axios/PublicAxios";
 
-const TABLE_HEAD = ["Member", "Function", "Active", "actions", "actions"];
+import { useSelector } from "react-redux";
+import PublicAxios from "../../../Axios/PublicAxios";
+import AdminVendorView from "../../../pages/Adminside/AdminApproveList/AdminVendorView";
+import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
+
+const TABLE_HEAD = ["Member", "Phone", "Active", "actions"];
 const ITEMS_PER_PAGE = 5;
 
-const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
+const UserTable = ({ isModal, urlEndpoint, Button_Endpoint, IsTherapist }) => {
   const authstate = useSelector((state) => state.auth);
   const [searchTerm, setSearchTerm] = useState("");
   const [userdata, setUserdata] = useState([]);
+  const [size, setSize] = React.useState(null);
+  const handleOpen = (value) => setSize(value);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await PublicAxios.get(`adminside/${urlEndpoint}`, {
+        const response = await PrivateAxios.get(`adminside/${urlEndpoint}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -76,7 +84,7 @@ const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
 
   const block = async (id) => {
     try {
-      const response = await axiosInstance.post(
+      const response = await PublicAxios.post(
         `adminside/${Button_Endpoint}/${id}/`,
         {
           headers: {
@@ -86,13 +94,10 @@ const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
       );
       console.log(response.data);
 
-      // Assuming the response contains the updated user data
       const updatedUser = response.data;
 
-      // Find the index of the updated user in the list
       const index = userdata.findIndex((user) => user.id === updatedUser.id);
 
-      // Update the user in the list with the updated data
       if (index !== -1) {
         const updatedUsers = [...userdata];
         updatedUsers[index] = updatedUser;
@@ -105,7 +110,8 @@ const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
 
   return (
     <>
-      <Card className="h-full w-full">
+    <div className="px-4 pb-24 h-screen overflow-auto md:px-6">
+      <Card className="">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="w-full md:w-72">
@@ -218,16 +224,24 @@ const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
                           </Typography>
                         </div>
                       </td>
-                      <td className={classes}>
-                        <div className="w-max">
-                          <Chip
-                            variant="ghost"
-                            size="sm"
-                            value={is_verified ? "Active" : "InActive"}
-                            color={is_verified ? "green" : "blue-gray"}
-                          />
-                        </div>
-                      </td>
+                      {!isModal ? (
+                        <td className={classes}>
+                          <div className="w-max">
+                            <Chip
+                              variant="ghost"
+                              size="sm"
+                              value={is_verified ? "Active" : "InActive"}
+                              color={is_verified ? "green" : "blue-gray"}
+                            />
+                          </div>
+                        </td>
+                      ) : (
+                        <td className={classes}>
+                          <div className="w-max">
+                            <AdminVendorView user_id={id} />
+                          </div>
+                        </td>
+                      )}
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -267,13 +281,6 @@ const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
                           )}
                         </Typography>
                       </td>
-                      <td className={classes}>
-                        <Tooltip content="Edit User">
-                          <IconButton variant="text">
-                            <PencilIcon className="h-4 w-4" />
-                          </IconButton>
-                        </Tooltip>
-                      </td>
                     </tr>
                   );
                 }
@@ -305,6 +312,7 @@ const UserTable = ({ urlEndpoint, Button_Endpoint, IsTherapist }) => {
           </div>
         </CardFooter>
       </Card>
+      </div>
     </>
   );
 };

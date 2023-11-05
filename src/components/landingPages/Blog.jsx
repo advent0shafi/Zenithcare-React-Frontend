@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PublicAxios from "../../Axios/PublicAxios";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../Interceptor/baseURL";
 const Blog = () => {
   const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(true);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,24 +29,28 @@ const navigate = useNavigate()
 
   const navigateToBlog = (data, event) => {
     event.preventDefault(); // Prevent the default behavior of the event
-   
-  }
+  };
 
   return (
     <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
       <div className="grid gap-10 row-gap-8 lg:grid-cols-5">
         {blogData.length > 0 && (
-          <div onClick={(event) => navigateToBlog(blogData[0], event)} key={blogData[0].id} className="lg:col-span-2">
+          <div
+            onClick={(event) => navigateToBlog(blogData[0], event)}
+            key={blogData[0].id}
+            className="lg:col-span-2"
+          >
             <p className="mb-2 text-xs font-semibold tracking-wide text-gray-600 uppercase">
-         
               {new Date(blogData[0].created_at).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "2-digit",
-                        })}
+                year: "numeric",
+                month: "short",
+                day: "2-digit",
+              })}
             </p>
             <div className="mb-3">
-            <Link to="/blog-details" state={blogData[0]}
+              <Link
+                to="/blog-details"
+                state={blogData[0]}
                 aria-label="Article"
                 className="inline-block text-black transition-colors duration-200 hover:text-deep-purple-accent-400"
               >
@@ -62,15 +67,22 @@ const navigate = useNavigate()
               />
             </p>
             <div className="flex items-center">
-              <Link to="/blog-details" state={blogData[0]} aria-label="Author" className="mr-3">
+              <Link
+                to="/blog-details"
+                state={blogData[0]}
+                aria-label="Author"
+                className="mr-3"
+              >
                 <img
-                  src={`http://127.0.0.1:8000/media/${blogData[0].author_image}`}
+                  src={`${BASE_URL}media/${blogData[0].author_image}`}
                   alt={blogData[0].title}
                   className="object-cover w-10 h-10 rounded-full shadow-sm"
                 />
               </Link>
               <div>
-              <Link to="/blog-details" state={blogData[0]}
+                <Link
+                  to="/blog-details"
+                  state={blogData[0]}
                   aria-label="Author"
                   className="font-semibold text-gray-800 transition-colors duration-200 hover:text-deep-purple-accent-400"
                 >
@@ -82,7 +94,6 @@ const navigate = useNavigate()
               </div>
             </div>
           </div>
-       
         )}
 
         <div className="flex flex-col space-y-8 lg:col-span-3">

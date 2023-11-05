@@ -6,9 +6,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import PublicAxios from "../../../Axios/PublicAxios";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../../Interceptor/baseURL";
+import ImageLoading from "../../../components/Spinner/ImageLoading";
 
 const Profile = () => {
   const authstate = useSelector((state) => state.auth);
+  const [loading,setLoading] = useState(false)
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const [image, setImage] = useState(null); // Changed initial value to null
@@ -97,11 +100,13 @@ const Profile = () => {
             <div className="relative">
               <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-24 flex items-center justify-center text-indigo-500">
                 {userData && (
+                  <div>
+                   {loading&&<ImageLoading/>}
                   <img
                     src={
                       image
                         ? URL.createObjectURL(image)
-                        : `http://127.0.0.1:8000${userData.profile_img}`
+                        : `${BASE_URL}${userData.profile_img}`
                     }
                     className="rounded-full w-48 h-48"
                     alt="profile picture"
@@ -110,6 +115,7 @@ const Profile = () => {
                       console.log("Image URL:", userData.profile_img);
                     }}
                   />
+                  </div>
                 )}
               </div>
             </div>

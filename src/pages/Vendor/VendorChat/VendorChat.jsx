@@ -68,7 +68,7 @@ const VendorChat = () => {
                       <div className="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
                         <img
                           className="w-8 h-8 rounded-full"
-                          src={`http://127.0.0.1:8000${user.profile_img}`}
+                          src={`https://www.zenith-care.online${user.profile_img}`}
                           alt="no image"
                         />
                       </div>

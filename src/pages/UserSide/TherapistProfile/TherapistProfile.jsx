@@ -13,6 +13,7 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
+import PublicAxios from "../../../Axios/PublicAxios";
  
 
 const TherapistProfile = () => {
@@ -24,7 +25,7 @@ const TherapistProfile = () => {
   useEffect(() => {
 
     try {
-      axiosInstance.get(`vendor/profile/${id}`, {
+      PublicAxios.get(`vendor/profile/${id}`, {
         headers: {
           "Content-Type": "application/json",
         },

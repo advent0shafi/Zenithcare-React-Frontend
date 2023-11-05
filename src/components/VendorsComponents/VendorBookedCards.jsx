@@ -18,44 +18,46 @@ const VendorBookedCards = ({
 }) => {
   const [userInfo, setUserInfo] = useState("");
   const [openInfo, setInfo] = useState(false);
-  const [Userstatus,setStatus] = useState(status)
-  
+  const [Userstatus, setStatus] = useState(status);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await PublicAxios.get(`booking/user-details/${booking_id}/`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        });
-  
+        const response = await PublicAxios.get(
+          `booking/user-details/${booking_id}/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+
         console.log(response.data);
-  
-        setUserInfo(response.data)
+
+        setUserInfo(response.data);
       } catch (error) {
         console.log("Error fetching user data:", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
-
   const handleComplete = () => {
-   
     console.log("here it's here", booking_id);
-    PublicAxios.put(`booking/bookings-complete/${booking_id}/`, { status:'completed' })
-      .then(response => {
-        console.log(response.data.status)
+    PublicAxios.put(`booking/bookings-complete/${booking_id}/`, {
+      status: "completed",
+    })
+      .then((response) => {
+        console.log(response.data.status);
         setStatus(response.data.status);
         alert("Booking status updated successfully");
       })
-      .catch(error => {
+      .catch((error) => {
         alert("Error updating booking status", error);
       });
   };
-  
 
   return (
     <div className="transition-shadow duration-300 bg-white border shadow-sm sm:items-center hover:shadow text-black rounded-lg mb-4 w-full p-4 m-4">
@@ -74,7 +76,7 @@ const VendorBookedCards = ({
           <strong>Date:</strong> {date_of_booking}
         </p>
         <p>
-          <strong>Status:</strong> {Userstatus ? Userstatus :status}
+          <strong>Status:</strong> {Userstatus ? Userstatus : status}
         </p>
 
         {openInfo && (
@@ -111,10 +113,13 @@ const VendorBookedCards = ({
           >
             View User Info
           </button>
-          <button onClick={handleComplete} className="bg-green-500 text-white px-2 py-1 rounded-md mt-2">
-  Mark as Complete
-</button>
-
+          <button
+            onClick={handleComplete}
+            className="bg-green-500 text-white px-2 py-1 rounded-md mt-2"
+            style={{ display: status === "completed" ? "none" : "block" }}
+          >
+            Mark as Complete
+          </button>
         </div>
       </div>
     </div>

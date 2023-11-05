@@ -9,19 +9,18 @@ const AdminApproveList = () => {
 
   return (
     <div>
-      <main className="relative  overflow-hidden bg-gray-100 dark:bg-gray-800">
+      <main className="relative h-screen overflow-hidden bg-gray-100 dark:bg-gray-800">
         <div className="flex items-start justify-between">
-       <AdminSidebar/>
+          <AdminSidebar/>
           <div className="flex flex-col w-full md:space-y-4">
             <AdminHeader/>
-            <div className='p-4'>
 
-            <UserTable  urlEndpoint={urlEndpoint} Button_Endpoint={button_endpoint}
+            <UserTable isModal={true}  urlEndpoint={urlEndpoint} Button_Endpoint={button_endpoint}
               IsTherapist = {false}
             />
             </div>
           </div>
-        </div>
+     
       </main>
     </div>
   )

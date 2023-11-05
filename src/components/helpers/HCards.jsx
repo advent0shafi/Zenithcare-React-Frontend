@@ -1,9 +1,8 @@
 import React from "react";
 import images from "./../../assets/doctor.png";
-
-
 import { Link } from "react-router-dom";
 import { CounselorProfile } from "../../pages/UserSide/Counselor/CounselorProfile";
+import { BASE_URL } from "../../Interceptor/baseURL";
 
 const HCards = ({ name, certification, specializations,language,buttonText, image,id }) => {
 
@@ -13,7 +12,7 @@ const HCards = ({ name, certification, specializations,language,buttonText, imag
       <div className="md:flex shadow-2xl bg-red-800 overflow-hidden rounded-lg">
         <div className="md:w-1/5 p-4 bg-white">
           <div className="rounded-full mt-4">
-            <img className="rounded-full" src={ image?`http://127.0.0.1:8000/media/${image}`:images } alt="Doctor Profile" />
+            <img className="rounded-full" src={ image?`${BASE_URL}media/${image}`:images } alt="Doctor Profile" />
           </div>
         </div>
         <div className="md:w-3/5 bg-white">

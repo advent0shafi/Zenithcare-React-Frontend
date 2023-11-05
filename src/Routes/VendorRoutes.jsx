@@ -22,11 +22,9 @@ const VendorRoutes = () => {
     <div>
         <Routes>
           <Route element={<VendorAuth allows={true}/>}>
-            <Route  path="/home" element={<VendorHome/>}/>
-            <Route  path="/profile" element={<VendorProfile/>}/>
+            <Route  path="/" element={<VendorProfile/>}/>
             <Route  path="/vendorupdate" element={<VendorUpdate/>}/>
             <Route  path="/chat" element={<VendorChatLayout/>}/>
-
             <Route path="/booking/:vendorId" element={<BookingManagment />} />
             <Route path="/payment" element={<PaymentLayout/>} />
             <Route path='/wallet-vendor' element={<VendorWalletLayout/>}/>

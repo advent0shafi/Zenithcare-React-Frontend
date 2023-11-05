@@ -21,10 +21,12 @@ import {
   Card,
 } from "@material-tailwind/react";
 import PublicAxios from "../../../Axios/PublicAxios";
+import Loading from "../../../components/Spinner/Loading";
 
 const VendorBlog = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
+  const [loading,setLoading] = useState(false)
   const authstate = useSelector((state) => state.auth);
   const user_id = authstate.user_id;
   const [isFavorite, setIsFavorite] = React.useState(false);
@@ -49,6 +51,7 @@ const VendorBlog = () => {
 
   // Handle form submission
   const handleSubmit = (event) => {
+    setLoading(true)
     event.preventDefault();
 
     // Create a FormData object for uploading files
@@ -80,24 +83,32 @@ const VendorBlog = () => {
         });
 
         // Close the dialog or perform any other necessary actions
+        setLoading(false)
         handleOpen();
       })
       .catch((error) => {
+        setLoading(false)
+
         console.error("Error creating blog post: ", error);
       });
   };
 
   const deleteHandle = (postId) => {
-    console.log('0_0');
+    setLoading(true)
+
     // Send a delete request to your backend
     PublicAxios.delete(`blog/blog-delete/${postId}/`)
       .then((response) => {
-       alert("Blog post deleted:", postId);
-  
+        alert("Blog post deleted:", postId);
+
         // Update the blogData state by removing the deleted post
+        setLoading(false)
+
         setBlogData(blogData.filter((post) => post.id !== postId));
       })
       .catch((error) => {
+        setLoading(false)
+
         console.error("Error deleting blog post: ", error);
       });
   };
@@ -107,13 +118,20 @@ const VendorBlog = () => {
   //   handleDeletes(postId)
   // }
   useEffect(() => {
+
     const fetchData = async () => {
+      setLoading(true)
+
       try {
         const response = await PublicAxios.get(`blog/bloglist/${user_id}`);
         console.log("Fetched data:", response.data);
         setBlogData(response.data);
         handleOpen();
+        setLoading(false)
+
       } catch (error) {
+        setLoading(false)
+
         console.error("Error fetching data:", error);
       }
     };
@@ -169,41 +187,45 @@ const VendorBlog = () => {
           </div>
         </DialogHeader>
         <DialogBody>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-1 flex flex-col gap-6">
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                Title
-              </Typography>
-              <Input
-                name="title"
-                value={formData.title}
-                onChange={handleInputChange}
-                size="lg"
-                placeholder="Enter the title"
-                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
-              />
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                Post Content
-              </Typography>
-              <ReactQuill
-                theme="snow"
-                value={formData.content}
-                onChange={(value) =>
-                  setFormData({ ...formData, content: value })
-                }
-              />
-              <div>
-                <input type="file" name="image" onChange={handleImageChange} />
-              </div>
-            </div>
-            <Button className="mt-6" fullWidth type="submit">
-              Submit
-            </Button>
-          </form>
-        </DialogBody>
+  {loading && <div><Loading /></div>}
+  <form onSubmit={handleSubmit}>
+    <div className="mb-1 flex flex-col gap-6">
+      <div className="overflow-hidden overflow-y-auto max-h-[400px]">
+        <Typography variant="h6" color="blue-gray" className="-mb-3">
+          Title
+        </Typography>
+        <Input
+          name="title"
+          value={formData.title}
+          onChange={handleInputChange}
+          size="lg"
+          placeholder="Enter the title"
+          className="!border-t-blue-gray-200 focus:!border-t-gray-900"
+          labelProps={{
+            className: "before:content-none after:content-none",
+          }}
+        />
+        <Typography variant="h6" color="blue-gray" className="-mb-3">
+          Post Content
+        </Typography>
+        <ReactQuill
+          theme="snow"
+          value={formData.content}
+          onChange={(value) =>
+            setFormData({ ...formData, content: value })
+          }
+        />
+        <div>
+          <input type="file" name="image" onChange={handleImageChange} />
+        </div>
+      </div>
+    </div>
+    <Button className="mt-6" fullWidth type="submit">
+      Submit
+    </Button>
+  </form>
+</DialogBody>
+
       </Dialog>
     </div>
   );

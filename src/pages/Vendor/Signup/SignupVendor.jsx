@@ -44,7 +44,6 @@ const SignupVendor = () => {
     }
   };
 
-  const notify = () => toast.success("Image has been updated.");
 
   return (
     <div>

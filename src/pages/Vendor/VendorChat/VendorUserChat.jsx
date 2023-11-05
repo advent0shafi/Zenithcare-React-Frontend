@@ -12,7 +12,7 @@ const VendorUserChat = ({ vendor_id, user_Id }) => {
   useEffect(() => {
     const roomName = `${vendor_id}_${user_Id}`;
     console.log("room name----", roomName);
-    const newSocket = new WebSocket(`ws://127.0.0.1:8000/ws/chat/${roomName}/`);
+    const newSocket = new WebSocket(`wss://www.zenith-care.online/ws/chat/${roomName}/`);
     setSocket(newSocket);
 
     return () => {

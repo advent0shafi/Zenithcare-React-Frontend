@@ -8,7 +8,6 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 import { setCredentials } from "../../../redux/AuthContext";
-import axiosInstance from "../../../axiosInstance";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import PublicAxios from "../../../Axios/PublicAxios";
@@ -48,7 +47,7 @@ setLoading(true)
       dispatch(setCredentials(userdata));
 
 
-      axiosInstance.defaults.headers.common[
+      axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${response.data.access_token}`;
       history("/");

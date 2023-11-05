@@ -12,6 +12,7 @@ import axiosInstance from "../../../axiosInstance";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import PublicAxios from "../../../Axios/PublicAxios";
+import NavbarVendor from "../../../components/VendorsComponents/NavbarVendor";
 
 const VendorSignin = () => {
   const [loading, setLoading] = useState(false);
@@ -47,7 +48,7 @@ const VendorSignin = () => {
           user_id: response.data.id,
         };
         dispatch(setCredentials(userdata));
-        history("/vendor/home");
+        history("/vendor/");
       } else {
         setLoading(false);
         toast.error("Unathorised");
@@ -66,7 +67,7 @@ const VendorSignin = () => {
 
   return (
     <div>
-      <Navbar />
+      <NavbarVendor />
       <div class="md:flex ">
         <div class="hidden md:flex md:w-1/2 p-12 ">
           <img className="" src={data} alt="" />

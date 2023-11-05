@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import images from "./../../assets/logiko.png";
 import { CounselorProfile } from "../../pages/UserSide/Counselor/CounselorProfile";
+import { BASE_URL } from "../../Interceptor/baseURL";
 
 const Cards = (props) => {
   const { image, name, degree, specialization, id, availabilityDate } = props;
@@ -15,7 +16,7 @@ const Cards = (props) => {
     <div className="bg-white drop-shadow-md h-96 overflow-hidden rounded-2xl mr-3 my-4 md:transition duration-300 ease-in-out transform hover:scale-105">
       <img
         className="h-40 w-full object-cover"
-        src={image ? `http://127.0.0.1:8000/media/${image}` : images}
+        src={image ? `${BASE_URL}media/${image}` : images}
         alt="People"
       />
 

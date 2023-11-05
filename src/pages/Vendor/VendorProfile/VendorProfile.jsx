@@ -36,8 +36,10 @@ const VendorProfile = () => {
         withCredentials: true,
       }).then((response) => {
         JSON.stringify(response);
+        console.log(response.data);
         setTherapist(response.data.therapist);
         setUserData(response.data);
+        setlanguage(response.data.therapist.languages);
         setFormsData({
           username: response.data.username,
           phone_number: response.data.phone_number,
@@ -105,182 +107,252 @@ const VendorProfile = () => {
         </div>
 
         <div className="w-full  md:w-10/12 p-12 mt-14 bg-white">
-          <div className="flex bg-white mb-2">
-            <div className="bg-gradient-to-br from-green-500  to-blue-500 rounded-full md:h-48 md:w-48  p-1">
-              <img
-                className="rounded-full md:h-48 md:w-48"
-                src={
-                  image
-                    ? URL.createObjectURL(image)
-                    : `http://127.0.0.1:8000${userdata.profile_img}`
-                }
-                alt=""
-              />
-              <div className="">
-                {image ? (
-                  <div onClick={handleSubmit}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="35"
-                      height="35"
-                      viewBox="0 0 40 40"
-                    >
-                      <path
-                        fill="#bae0bd"
-                        d="M20,38.5C9.8,38.5,1.5,30.2,1.5,20S9.8,1.5,20,1.5S38.5,9.8,38.5,20S30.2,38.5,20,38.5z"
-                      />
-                      <path
-                        fill="#5e9c76"
-                        d="M20,2c9.9,0,18,8.1,18,18s-8.1,18-18,18S2,29.9,2,20S10.1,2,20,2 M20,1C9.5,1,1,9.5,1,20s8.5,19,19,19s19-8.5,19-19S30.5,1,20,1L20,1z"
-                      />
-                      <path
-                        fill="none"
-                        stroke="#fff"
-                        strokeMiterlimit="10"
-                        strokeWidth="1.5"
-                        d="M11.2,20.1l5.8,5.8l13.2-13.2"
-                      />
-                    </svg>
+          <div className="md:flex bg-white mb-2">
+            <div class="mb-4">
+              <div class="    ">
+                <div className=" p-5">
+                  <div class="md:flex mb-4 bg-white transition-shadow duration-300 border shadow-sm sm:items-center hover:shadow text-black p-6 rounded-lg w-full">
+                    <div class="w-1/3 bg-white rounded-full overflow-hidden">
+                      <img
+                        className="rounded-full"
+                        src={
+                          image
+                            ? URL.createObjectURL(image)
+                            : `https://www.zenith-care.online${userdata.profile_img}`
+                        }
+                        alt=""
+                      />{" "}
+                      <div className=""></div>
+                    </div>
+                    {!toggle && (
+                      <div class="md:px-6 mb-2">
+                        <label
+                          htmlFor="imageInput"
+                          className="inline-block bg-[#051570] hover:bg-[#1e2a6b] rounded-full md:px-3 py-1 text-sm font-semibold text-white mr-2 mb-2 cursor-pointer"
+                        >
+                          Change Image
+                        </label>
+                        <input
+                          onChange={(e) => setImage(e.target.files[0])}
+                          type="file"
+                          id="imageInput"
+                          style={{ display: "none" }}
+                        />
+
+                        <span
+                          onClick={handleSubmit}
+                          class="inline-block bg-gray-200 rounded-full md:px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                        >
+                          Update Image
+                        </span>
+                      </div>
+                    )}
+                    {!toggle ? (
+                      <div class="w-2/3 bg-white pl-2 text-black mt-5">
+                        <h1 className="text-2xl font-bold">
+                          {userdata && userdata?.username}{" "}
+                          <span class="inline-block bg-[#32CD32] rounded-full md:px-3 py-1 text-sm font-thin text-white mr-2 mb-2">
+                            verified
+                          </span>
+                        </h1>
+                        <p>
+                          Specialized in{" "}
+                          <span>
+                            {" "}
+                            {therapist &&
+                              therapist.categories &&
+                              therapist.categories.name}
+                          </span>{" "}
+                        </p>
+                        <p>
+                          {" "}
+                          <span>
+                            {therapist && therapist.experience_years}
+                          </span>{" "}
+                          years of experience
+                        </p>
+                        <p>
+                          Fluent in{" "}
+                          <span>
+                            {languages &&
+                              languages.map((lang) => lang.language).join(", ")}
+                          </span>
+                        </p>
+                      </div>
+                    ) : (
+                      <form className="ml-4" onSubmit={updateUserDetails}>
+                        <div className="w-full mb-1">
+                          <label
+                            htmlFor="username"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Username
+                          </label>
+                          <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            value={formsData.username}
+                            onChange={handleInputChange}
+                            className="w-full text-sm border rounded-md  py-2 px-2 font-medium text-gray-700"
+                          />
+                        </div>
+                        <div className="w-full mb-1">
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formsData.email}
+                            placeholder={formsData.email}
+                            className="w-full text-sm font-light text-gray-600 py-2 px-2 border rounded-md "
+                          />
+                        </div>
+                        <div className="w-full mb-1">
+                          <label
+                            htmlFor="phone_number"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Phone Number
+                          </label>
+                          <input
+                            type="number"
+                            id="phone_number"
+                            name="phone_number"
+                            value={formsData.phone_number}
+                            placeholder={formsData.phone_number}
+                            onChange={handleInputChange}
+                            className="w-full text-sm font-light text-gray-600 py-2 px-2 border rounded-md "
+                          />
+                        </div>
+                        <button className="bg-red-700 text-white w-auto mt-2 rounded-full p-1 hover:bg-red-900 py-1 px-5">
+                          Update
+                        </button>
+                      </form>
+                    )}
                   </div>
-                ) : (
-                  <label
-                    htmlFor="imageInput"
-                    className=" w-10 h-10 rounded-full "
-                  >
-                    <svg
-                      htmlFor="imageInput"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      className="h-8 w-8  right-0  m-2"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      // onClick={handleCameraIconClick}
-                      style={{ cursor: "pointer" }}
+
+                  <div className="text-center w-full">
+                    <h1
+                      onClick={() => setToggle(!toggle)}
+                      className="text-blue-800 font-normal peer-hover:red-500 "
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
-                      />
-                    </svg>
-                    <input
-                      onChange={(e) => setImage(e.target.files[0])}
-                      type="file"
-                      id="imageInput"
-                      style={{ display: "none" }}
-                    />
-                  </label>
-                )}
+                      {toggle ? "Cancel" : "Edit"}
+                    </h1>
+                  </div>
+                </div>
+
+                <div className=" p-4">
+                  <div className="transition-shadow duration-300 bg-white border shadow-sm sm:items-center hover:shadow text-black p-6 rounded-lg mb-4 w-full">
+                    <p className="text-lg font-light mb-3">Bio Data </p>
+                    <p className="italic text-gray-900 text-base">
+                      {therapist && therapist.bio}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className=" p-4">
+                <div className="transition-shadow duration-300 bg-white border shadow-sm sm:items-center hover:shadow text-black p-6 rounded-lg mb-4 w-full">
+                  <p className="text-lg font-light">Experince and Fees </p>
+                  <div className="p-4">
+                    <p className="text-gray-900 text-base">
+                      Experience : {therapist.experience_years} years
+                    </p>
+                    <p className="text-gray-900 text-base">
+                      Fees : {therapist.hourly_rate}
+                    </p>
+                  </div>
+                  <p className="italic"></p>
+                </div>
+              </div>
+
+              <div className=" p-4">
+                <div className="transition-shadow duration-300 bg-white border shadow-sm sm:items-center hover:shadow text-black p-6 rounded-lg mb-4 w-full">
+                  <p className="text-lg font-light">Educations</p>
+                  <div className="p-4">
+                    <p className="text-gray-900 text-base">
+                      Degree : {therapist.degree}
+                    </p>
+
+                    <p className="text-gray-900 text-base">
+                      University : {therapist.university} years
+                    </p>
+
+                    <a
+                      href={therapist && therapist.certifications}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="text-red-700 text-base hover:underline">
+                        {" "}
+                        View Certification
+                      </span>
+                    </a>
+                  </div>
+                  <p className="italic"></p>
+                </div>
+              </div>
+
+              <div className=" p-4">
+                <div className="transition-shadow duration-300 bg-white border shadow-sm sm:items-center hover:shadow text-black p-6 rounded-lg mb-4 w-full">
+                  <p className="text-lg font-light">Address </p>
+                  <div className="p-4">
+                    <p className="text-gray-900 text-base">
+                      {therapist &&
+                        therapist.address &&
+                        therapist.address.building}
+                      ,{" "}
+                      {therapist &&
+                        therapist.address &&
+                        therapist.address.street}
+                    </p>
+
+                    <p className="text-gray-900 text-base">
+                      {therapist &&
+                        therapist.address &&
+                        therapist.address.district}
+                      ,
+                      {therapist &&
+                        therapist.address &&
+                        therapist.address.state}
+                    </p>
+
+                    <p className="text-gray-800 text-base">
+                      {" "}
+                      Pin Code :
+                      {therapist &&
+                        therapist.address &&
+                        therapist.address.zipcode}
+                    </p>
+                    <p className="text-gray-900 text-base">
+                      {" "}
+                      Email :{userdata && userdata.email}
+                    </p>
+                    <p className="text-gray-900 text-base">
+                      {" "}
+                      Phone :{userdata && userdata.phone_number}
+                    </p>
+                  </div>
+                  <p className="italic"></p>
+                </div>
+              </div>
+              <div className="flex justify-center items-center">
+                <div>
+                  <Link to="/vendor/vendorupdate">
+                    <span class="inline-block bg-[#051570] hover:bg-[#3447b1]  rounded-full md:px-5 py-2 text-sm font-semibold text-white mr-2 mb-2">
+                      Update Image
+                    </span>
+                  </Link>
+                </div>
               </div>
             </div>
-
-            {!toggle ? (
-              <div className="bg-white w-[750px] h-34 ml-6  mt-2 p-4 rounded-sm ">
-                <h1 className="text-2xl">{userdata && userdata.username}</h1>
-                <h1 className="text-1xl">
-                  email: {userdata && userdata.email}
-                </h1>
-                <h1 className="text-1xl">
-                  Specialisations : {therapist && therapist.categories?.name}
-                </h1>
-                <h1 className="text-1xl">
-                  Langauge: {therapist && therapist.languages?.language}
-                </h1>
-              </div>
-            ) : (
-              <form className="ml-4" onSubmit={updateUserDetails}>
-              <div className="w-full mb-4">
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formsData.username}
-                  onChange={handleInputChange}
-                  className="w-full text-4xl border rounded-md  py-2 px-3 font-medium text-gray-700"
-                />
-              </div>
-              <div className="w-full mb-4">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formsData.email}
-                  placeholder={formsData.email}
-                  className="w-full font-light text-gray-600 py-2 px-3 border rounded-md "
-                />
-              </div>
-              <div className="w-full mb-4">
-                <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">
-                  Phone Number
-                </label>
-                <input
-                  type="number"
-                  id="phone_number"
-                  name="phone_number"
-                  value={formsData.phone_number}
-                  placeholder={formsData.phone_number}
-                  onChange={handleInputChange}
-                  className="w-full font-light text-gray-600 py-2 px-3 border rounded-md "
-                />
-              </div>
-              <button className="bg-red-700 text-white w-auto mt-5 rounded-md p-1 hover:bg-red-900 py-2 px-4">
-                Update
-              </button>
-            </form>
-            
-            )}
           </div>
-          <div className="text-center w-full">
-            <h1 onClick={() => setToggle(!toggle)} className="text-blue-800 font-normal peer-hover:red-500 ">
-              {toggle ? "Cancel" : "Edit"}
-            </h1>
-          </div>
-          <div className="bg-white h-96">
-            <div className="bg-white h-56 p-6">
-              <h1 className="text-2xl pl-8 "> DEATILES</h1>
-
-              <p className=" pl-8 ">{therapist && therapist.bio}</p>
-            </div>
-          </div>
-          <Link to="/vendor/vendorupdate">
-            <a
-              href="#_"
-              class="relative inline-flex items-center justify-center p-4 px-6 py-3 overflow-hidden font-medium text-indigo-600 transition duration-300 ease-out border-2 border-purple-500 rounded-full shadow-md group"
-            >
-              <span class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-purple-500 group-hover:translate-x-0 ease">
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  ></path>
-                </svg>
-              </span>
-              <span class="absolute flex items-center justify-center w-full h-full text-purple-500 transition-all duration-300 transform group-hover:translate-x-full ease">
-                Update Profile
-              </span>
-              <span class="relative invisible">Update Profile</span>
-            </a>
-          </Link>
         </div>
       </div>
     </>

@@ -6,12 +6,15 @@ import axiosInstance from "../../axiosInstance";
 import { Link } from "react-router-dom";
 import PublicAxios from "../../Axios/PublicAxios";
 import { CounselorProfile } from "../../pages/UserSide/Counselor/CounselorProfile";
+import Loading from "../Spinner/Loading";
 
 
 const TopTherapist = () => {
+  const [loading,setLoading] = useState(false)
   const [therapistList, setTherapistList] = useState([]);
   useEffect(() => {
     try {
+      setLoading(true)
       PublicAxios.get(`vendor/topTherapist`, {
         headers: {
           "Content-Type": "application/json",
@@ -19,9 +22,12 @@ const TopTherapist = () => {
         withCredentials: true,
       }).then((response) => {
         JSON.stringify(response);
-        setTherapistList(response.data); //  console.log(userdata)
+        setTherapistList(response.data);
+        setLoading(false) //  console.log(userdata)
       });
     } catch (error) {
+      setLoading(false) //  console.log(userdata)
+
       console.log("Error fetching user data:", error);
     }
   }, []);
@@ -61,7 +67,10 @@ const TopTherapist = () => {
   };
 
   return (
+  
     <div className="w-full bg-[#E9F8F3B2] pl-7 pr-7 py-32">
+          {loading && <div><Loading/></div>}
+
       <div className="md:max-w-[1326px] m-auto max-w-[350px]">
         <h1 className="text-3xl font-bold">
           Our Top <span className="text-[#051570]">Therapists</span> and{" "}
@@ -91,6 +100,7 @@ const TopTherapist = () => {
         </Slider>
       </div>
     </div>
+  
   );
 };
 

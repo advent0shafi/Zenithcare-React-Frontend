@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import images from "./../../assets/doctor.png";
 import { Link } from "react-router-dom";
 import PublicAxios from "../../Axios/PublicAxios";
+import { BASE_URL } from "../../Interceptor/baseURL";
 
 const BookedSessionsCards = ({
   name,
@@ -89,7 +90,7 @@ const BookedSessionsCards = ({
         <div className="md:w-1/5 p-4 bg-white">
           <div className="rounded-full overflow-hidden mt-4">
             <img
-              src={image ? `http://127.0.0.1:8000/media/${image}` : images}
+              src={image ? `${BASE_URL}media/${image}` : images}
               alt="Doctor Profile"
             />
           </div>

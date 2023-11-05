@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PublicAxios from "../../../Axios/PublicAxios";
+import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
+
 
 const AdminVendorPayment = () => {
   const [vendorWallets, setVendorWallets] = useState([]);
@@ -18,7 +20,7 @@ const AdminVendorPayment = () => {
   }, []);
 
   const fetchVendorWalletData = () => {
-    PublicAxios.get("vendor/vendorwallets/", {
+    PrivateAxios.get("vendor/vendorwallets/", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -34,7 +36,7 @@ const AdminVendorPayment = () => {
   const handlePayment = (vendorId) => {
     // Add your payment handling logic here
     console.log(vendorId);
-    PublicAxios.put(`vendor/pay-amount/${vendorId}/`, paymentData)
+    PrivateAxios.put(`vendor/pay-amount/${vendorId}/`, paymentData)
       .then((response) => {
         console.log(`Payment successful for vendor ID ${vendorId}`);
         fetchVendorWalletData();
