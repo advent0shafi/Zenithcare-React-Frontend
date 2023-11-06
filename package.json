@@ -49,6 +49,7 @@
     "slick-carousel": "^1.8.1",
     "tw-elements-react": "^1.0.0-alpha1",
     "use-async-effect": "^2.2.7",
+    "vercel": "^32.5.0",
     "websocket": "^1.0.34"
   },
   "devDependencies": {
