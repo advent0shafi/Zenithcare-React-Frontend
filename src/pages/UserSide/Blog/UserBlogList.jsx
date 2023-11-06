@@ -4,7 +4,8 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import PublicAxios from "../../../Axios/PublicAxios";
 import { Link } from "react-router-dom";
 import Loading from "../../../components/Spinner/Loading";
-
+import { BASE_URL } from "../../../Interceptor/baseURL";
+import image from "../../../assets/blog2.png"
 
 const UserBlogList = () => {
   const [blogData, setBlogData] = useState([]);
@@ -43,7 +44,8 @@ const UserBlogList = () => {
     <div>
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
+          <div className="md:flex justify-between  mx-auto border p-12 transition-shadow rounded-2xl duration-300 bg-white shadow-sm sm:items-center hover:shadow lg:mx-0">
+            <div className="">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               From the blog
           
@@ -51,13 +53,19 @@ const UserBlogList = () => {
             <p className="mt-2 text-lg leading-8 text-gray-600">
               Learn how to grow your business with our expert advice.
             </p>
+            </div>
+            <div className="">
+            <img src={image} alt="" />
+
+            </div>
+
           </div>
-          <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t  border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {blogData.map((post) => (
               <Link to="/blog-details" state={post}>
                 <article
                   key={post.id}
-                  className="flex max-w-xl flex-col items-start h-[500px] justify-between bg-white border rounded-lg  overflow-hidden"
+                  className="flex max-w-xl flex-col items-start h-[500px] justify-between bg-white border rounded-lg shadow-lg transition-all group-hover:w-full overflow-hidden"
                 >
                   <div className="">
                     <img
@@ -99,7 +107,7 @@ const UserBlogList = () => {
                     </div>
                     <div className="relative mt-8 flex items-center gap-x-4">
                       <img
-                        src={`http://127.0.0.1:8000/media/${post.author_image}`}
+                        src={`${BASE_URL}media/${post.author_image}`}
                         alt="no image"
                         className="h-10 w-10 rounded-full bg-gray-50"
                       />

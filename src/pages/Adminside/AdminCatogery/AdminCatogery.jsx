@@ -250,7 +250,6 @@ const AdminCatogery = () => {
 
             <div className=" p-4">
               <div className="transition-shadow duration-300 bg-white border shadow-sm sm:items-center hover:shadow text-black p-6 rounded-lg mb-4 w-full">
-                <p className="text-lg font-light">Language Configure </p>
                 <div className="">
                  
                   <div className="p-4">

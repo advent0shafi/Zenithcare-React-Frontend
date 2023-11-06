@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PublicAxios from "../../../Axios/PublicAxios";
 import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
+import { BASE_URL } from "../../../Interceptor/baseURL";
 
 
 const AdminVendorPayment = () => {
   const [vendorWallets, setVendorWallets] = useState([]);
+  const [socket, setSocket] = useState(null);
   const [paymentData, setPaymentData] = useState({
     amount: 0,
     description: "",
@@ -17,6 +19,7 @@ const AdminVendorPayment = () => {
 
   useEffect(() => {
     fetchVendorWalletData();
+
   }, []);
 
   const fetchVendorWalletData = () => {
@@ -33,13 +36,20 @@ const AdminVendorPayment = () => {
       });
   };
 
+
+  
   const handlePayment = (vendorId) => {
+    const roomName = `${vendorId}_Admin`;
+    console.log("room name----", roomName);
+    const newSocket = new WebSocket(`wss://www.zenith-care.online/ws/note-chat/${roomName}/`);
+    setSocket(newSocket);
     // Add your payment handling logic here
     console.log(vendorId);
     PrivateAxios.put(`vendor/pay-amount/${vendorId}/`, paymentData)
       .then((response) => {
         console.log(`Payment successful for vendor ID ${vendorId}`);
         fetchVendorWalletData();
+
       })
       .catch((error) => {
         console.error("Payment error", error);
@@ -84,7 +94,7 @@ const AdminVendorPayment = () => {
                  <div className="flex items-center gap-4">
             <img
               className="w-16 h-16 rounded-full object-cover"
-              src={`http://127.0.0.1:8000/media/${wallet.vendor_image}`}
+              src={`${BASE_URL}media/${wallet.vendor_image}`}
               alt={wallet.vendor_name}
             />
             <div>

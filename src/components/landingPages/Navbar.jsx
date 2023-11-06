@@ -118,7 +118,7 @@ const Navbar = () => {
           >
             About
           </li>
-          <li className="p-4 hover-bg-gray-100">Contact</li>
+         
           <div className="flex flex-col my-4 gap-4 ">
           {logout ? (
             <button className="flex justify-center items-center bg-transparent px-6 gap-2">
