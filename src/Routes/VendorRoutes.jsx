@@ -16,6 +16,7 @@ import PaymentLayout from '../pages/Vendor/PaymentsList/PaymentLayout';
 import BookedLayoutSessions from '../pages/Vendor/BookedSessions/BookedLayoutSessions';
 import VendorWalletLayout from '../pages/Vendor/WalletVendor/VendorWalletLayout';
 import VendorBlogLayout from '../pages/Vendor/vendorBlog/VendorBlogLayout';
+import Error from '../components/landingPages/Error';
 
 const VendorRoutes = () => {
   return (
@@ -36,6 +37,7 @@ const VendorRoutes = () => {
             <Route path="/success" element={<SuccessPage/>}/>
             <Route path='/otp/:id' element={<VendorOtp/>} />
             <Route path='/bookings-sessions' element={<BookedLayoutSessions/>}/>
+            <Route path="*" element={<Error/>}/>
 
         </Routes>
     </div>

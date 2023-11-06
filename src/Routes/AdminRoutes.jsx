@@ -10,6 +10,7 @@ import AdminPaymentLayout from "../pages/Adminside/AdminPaymentList/AdminPayment
 import AdminVendorPaymentLayout from "../pages/Adminside/AdminPaymentList/AdminVendorPaymentLayout";
 import AdminHomeLayout from "../pages/Adminside/AdminHome/AdminHomeLayout";
 import AdminCatogeryLayout from "../pages/Adminside/AdminCatogery/AdminCatogeryLayout";
+import Error from "../components/landingPages/Error";
 
 const AdminRoutes = () => {
   return (
@@ -30,6 +31,8 @@ const AdminRoutes = () => {
         
 
         {/* </Route> */}
+        <Route path="*" element={<Error/>}/>
+
       </Routes>
     </>
   );

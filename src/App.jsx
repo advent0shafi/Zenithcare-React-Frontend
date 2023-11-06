@@ -7,6 +7,7 @@ import UserRoutes from "./Routes/UserRoutes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import VendorRoutes from "./Routes/VendorRoutes";
 import AdminRoutes from "./Routes/AdminRoutes";
+import Error from "./components/landingPages/Error";
 function App() {
   return (
     <>
@@ -15,7 +16,7 @@ function App() {
         <Route path="/*" element={<UserRoutes />} />
         <Route path="/vendor/*"  element={<VendorRoutes/>}/>
         <Route path="/admin/*" element={<AdminRoutes/>} />
-        </Routes>
+?        </Routes>
       </Router>
     </>
   );
