@@ -16,6 +16,7 @@ import Booked_sessions from "../pages/UserSide/Profile/Booked_sessions";
 import UserChatLayout from "../pages/UserSide/UserChat/UserChatLayout";
 import UserBlogDetailsPage from "../pages/UserSide/Blog/UserBlogDetailsPage";
 import About from "../pages/UserSide/About/About";
+import UserPaymentSuccess from "../pages/UserSide/UserBooking/UserPaymentSuccess";
 
 const UserRoutes = () => {
   return (
@@ -28,15 +29,15 @@ const UserRoutes = () => {
         </Route>
         <Route exact path="/signup" element={<SignUp />} />
         <Route exact path="/otpuser/:id" element={<UserOtp />} />
-        <Route element={<ReqAuth />}>
           <Route exact path="/Therapist" element={<Counselor />} />
           <Route exact path="/blog" element={<UserBlog />} />
           <Route path="/user-booking" element={<UserBookingLayout />} />
+        <Route element={<ReqAuth />}>
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/booked-sessions" element={<Booked_sessions />} />
           <Route exact path="/blog-details" element={<UserBlogDetailsPage />} />
           <Route exact path="/about" element={<About />} />
-
+          <Route exact path="/success" element={<UserPaymentSuccess />} />
           <Route exact path="/counselor/:id" element={<TherapistProfile />} />
         </Route>
       </Routes>
