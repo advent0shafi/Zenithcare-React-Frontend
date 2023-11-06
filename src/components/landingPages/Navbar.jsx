@@ -58,7 +58,9 @@ const Navbar = () => {
                   "--fa-secondary-color": "#000524",
                 }}
               />
-              <button onClick={() => navigate("/profile")}>{authstate.username}</button>
+              <button onClick={() => navigate("/profile")}>
+                {authstate.username}
+              </button>
             </button>
           ) : (
             <button className="flex justify-between items-center bg-transparent px-6 gap-2">
@@ -75,7 +77,9 @@ const Navbar = () => {
             </button>
           ) : (
             <button className="px-8 py-3 rounded-lg bg-[#051570] text-white font-bold">
-              <button onClick={() => navigate("/signup")}>Signup for free</button>
+              <button onClick={() => navigate("/signup")}>
+                Signup for free
+              </button>
             </button>
           )}
         </div>
@@ -93,19 +97,62 @@ const Navbar = () => {
         }
       >
         <ul>
-          <li className="p-4 hover:bg-gray-100" onClick={() => navigate("/")}>Home</li>
-          <li className="p-4 hover-bg-gray-100" onClick={() => navigate("/Therapist")}>Therapist</li>
-          <li className="p-4 hover-bg-gray-100" onClick={() => navigate("/blog")}>Blog</li>
-          <li className="p-4 hover-bg-gray-100" onClick={() => navigate("/about")}>About</li>
+          <li className="p-4 hover:bg-gray-100" onClick={() => navigate("/")}>
+            Home
+          </li>
+          <li
+            className="p-4 hover-bg-gray-100"
+            onClick={() => navigate("/Therapist")}
+          >
+            Therapist
+          </li>
+          <li
+            className="p-4 hover-bg-gray-100"
+            onClick={() => navigate("/blog")}
+          >
+            Blog
+          </li>
+          <li
+            className="p-4 hover-bg-gray-100"
+            onClick={() => navigate("/about")}
+          >
+            About
+          </li>
           <li className="p-4 hover-bg-gray-100">Contact</li>
           <div className="flex flex-col my-4 gap-4 ">
-            <button className="border border-[#051570] rounded-lg flex justify-center font-bold items-center bg-transparent px-6 gap-2 py-4" onClick={() => navigate("/login")}>
+          {logout ? (
+            <button className="flex justify-center items-center bg-transparent px-6 gap-2">
+              <FontAwesomeIcon
+                icon={faUser}
+                style={{
+                  "--fa-primary-color": "#051570",
+                  "--fa-secondary-color": "#000524",
+                }}
+              />
+              <button onClick={() => navigate("/profile")}>
+                {authstate.username}
+              </button>
+            </button>
+          ) : (
+            <button className="flex justify-between items-center bg-transparent px-6 gap-2">
               <img className="h-[20px]" src={lock} />
-              Login
+              <button onClick={() => navigate("/login")}>Login</button>
             </button>
-            <button className="px-8 py-5 rounded-lg bg-[#051570] text-white font-bold" onClick={() => navigate("/signup")}>
-              Signup for free
+          )}
+          {logout ? (
+            <button
+              onClick={handleLogout}
+              className="px-8 py-3 rounded-lg bg-[#051570] text-white font-bold"
+            >
+              Logout
             </button>
+          ) : (
+            <button className="px-8 py-3 rounded-lg bg-[#051570] text-white font-bold">
+              <button onClick={() => navigate("/signup")}>
+                Signup for free
+              </button>
+            </button>
+          )}
           </div>
         </ul>
       </div>

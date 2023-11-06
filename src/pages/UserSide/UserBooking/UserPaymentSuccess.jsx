@@ -4,7 +4,7 @@ import Footer from "../../../components/landingPages/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const UserPaymentSuccess = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
@@ -44,10 +44,13 @@ const UserPaymentSuccess = () => {
               <p>Have a great day!</p>
               <div className="py-10 text-center">
                 <a
-                onClick={()=>{navigate('/booked-sessions')}}
+                  onClick={() => {
+                    navigate("/booked-sessions");
+                  }}
                   className="px-12 bg-[#051570] hover:bg-indigo-500 text-white font-semibold py-3"
                 >
- BOOKED SESSIONS                </a>
+                  BOOKED SESSIONS{" "}
+                </a>
               </div>
             </div>
           </div>
