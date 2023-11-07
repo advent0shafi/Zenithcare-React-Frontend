@@ -38,9 +38,9 @@ const UserRoutes = () => {
           <Route exact path="/booked-sessions" element={<Booked_sessions />} />
           <Route exact path="/blog-details" element={<UserBlogDetailsPage />} />
           <Route exact path="/about" element={<About />} />
-          <Route exact path="/success" element={<UserPaymentSuccess />} />
           <Route exact path="/counselor/:id" element={<TherapistProfile />} />
         </Route>
+          <Route exact path="/success" element={<UserPaymentSuccess />} />
         <Route path="*" element={<Error/>}/>
 
       </Routes>

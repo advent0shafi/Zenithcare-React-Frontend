@@ -6,6 +6,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 import {
   Button,
@@ -26,7 +27,7 @@ import Loading from "../../../components/Spinner/Loading";
 const VendorBlog = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const authstate = useSelector((state) => state.auth);
   const user_id = authstate.user_id;
   const [isFavorite, setIsFavorite] = React.useState(false);
@@ -51,7 +52,7 @@ const VendorBlog = () => {
 
   // Handle form submission
   const handleSubmit = (event) => {
-    setLoading(true)
+    setLoading(true);
     event.preventDefault();
 
     // Create a FormData object for uploading files
@@ -83,18 +84,18 @@ const VendorBlog = () => {
         });
 
         // Close the dialog or perform any other necessary actions
-        setLoading(false)
+        setLoading(false);
         handleOpen();
       })
       .catch((error) => {
-        setLoading(false)
+        setLoading(false);
 
         console.error("Error creating blog post: ", error);
       });
   };
 
   const deleteHandle = (postId) => {
-    setLoading(true)
+    setLoading(true);
 
     // Send a delete request to your backend
     PublicAxios.delete(`blog/blog-delete/${postId}/`)
@@ -102,12 +103,12 @@ const VendorBlog = () => {
         alert("Blog post deleted:", postId);
 
         // Update the blogData state by removing the deleted post
-        setLoading(false)
+        setLoading(false);
 
         setBlogData(blogData.filter((post) => post.id !== postId));
       })
       .catch((error) => {
-        setLoading(false)
+        setLoading(false);
 
         console.error("Error deleting blog post: ", error);
       });
@@ -118,19 +119,17 @@ const VendorBlog = () => {
   //   handleDeletes(postId)
   // }
   useEffect(() => {
-
     const fetchData = async () => {
-      setLoading(true)
+      setLoading(true);
 
       try {
         const response = await PublicAxios.get(`blog/bloglist/${user_id}`);
         console.log("Fetched data:", response.data);
         setBlogData(response.data);
         handleOpen();
-        setLoading(false)
-
+        setLoading(false);
       } catch (error) {
-        setLoading(false)
+        setLoading(false);
 
         console.error("Error fetching data:", error);
       }
@@ -187,45 +186,85 @@ const VendorBlog = () => {
           </div>
         </DialogHeader>
         <DialogBody>
-  {loading && <div><Loading /></div>}
-  <form onSubmit={handleSubmit}>
-    <div className="mb-1 flex flex-col gap-6">
-      <div className="overflow-hidden overflow-y-auto max-h-[400px]">
-        <Typography variant="h6" color="blue-gray" className="-mb-3">
-          Title
-        </Typography>
-        <Input
-          name="title"
-          value={formData.title}
-          onChange={handleInputChange}
-          size="lg"
-          placeholder="Enter the title"
-          className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-          labelProps={{
-            className: "before:content-none after:content-none",
-          }}
-        />
-        <Typography variant="h6" color="blue-gray" className="-mb-3">
-          Post Content
-        </Typography>
-        <ReactQuill
-          theme="snow"
-          value={formData.content}
-          onChange={(value) =>
-            setFormData({ ...formData, content: value })
-          }
-        />
-        <div>
-          <input type="file" name="image" onChange={handleImageChange} />
-        </div>
-      </div>
-    </div>
-    <Button className="mt-6" fullWidth type="submit">
-      Submit
-    </Button>
-  </form>
-</DialogBody>
-
+          {loading && (
+            <div>
+              <Loading />
+            </div>
+          )}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-1 flex flex-col gap-6">
+              <div className="overflow-hidden overflow-y-auto max-h-[400px]">
+                <Typography variant="h6" color="blue-gray" className="">
+                  Title
+                </Typography>
+                <Input
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  size="lg"
+                  placeholder="Enter the title"
+                  className="!border-t-blue-gray-200 focus:!border-t-gray-900"
+                  labelProps={{
+                    className: "before:content-none after:content-none",
+                  }}
+                />
+                <Typography variant="h6" color="blue-gray" className="">
+                  Post Content
+                </Typography>
+                <ReactQuill
+                  theme="snow"
+                  value={formData.content}
+                  onChange={(value) =>
+                    setFormData({ ...formData, content: value })
+                  }
+                />
+                <div>
+                  <input
+                 
+                  />
+                </div>
+                <div className="col-span-full">
+                  <label
+                    htmlFor="cover-photo"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Cover photo
+                  </label>
+                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                    <div className="text-center">
+                      <PhotoIcon
+                        className="mx-auto h-12 w-12 text-gray-300"
+                        aria-hidden="true"
+                      />
+                      <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                        <label
+                          htmlFor="file-upload"
+                          className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                        >
+                          <span>Upload a Photo</span>
+                          <input
+                            id="file-upload"
+                            type="file"
+                            name="image"
+                            onChange={handleImageChange}
+                            className="sr-only"
+                          />
+                        </label>
+                        <p className="pl-1">or drag and drop</p>
+                      </div>
+                      <p className="text-xs leading-5 text-gray-600">
+                        PNG, JPG, GIF up to 10MB
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Button className="mt-6" fullWidth type="submit">
+              Submit
+            </Button>
+          </form>
+        </DialogBody>
       </Dialog>
     </div>
   );

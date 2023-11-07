@@ -29,6 +29,7 @@ import { useSelector } from "react-redux";
 import PublicAxios from "../../../Axios/PublicAxios";
 import AdminVendorView from "../../../pages/Adminside/AdminApproveList/AdminVendorView";
 import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
+import { BASE_URL } from "../../../Interceptor/baseURL";
 
 const TABLE_HEAD = ["Member", "Phone", "Active", "actions"];
 const ITEMS_PER_PAGE = 5;
@@ -177,7 +178,7 @@ const UserTable = ({ isModal, urlEndpoint, Button_Endpoint, IsTherapist }) => {
                         <div className="flex items-center gap-3">
                           {profile_img ? (
                             <Avatar
-                              src={`http://127.0.0.1:8000/media/${profile_img}`}
+                              src={`${BASE_URL}media/${profile_img}`}
                               alt={username}
                               size="sm"
                             />

@@ -119,7 +119,7 @@ const name =  searchParams.get("name");
           <div className="flex flex-col flex-auto flex-shrink-0 bg-gray-100 h-full p-4 rounded-2xl rounded-tr-2xl rounded-tl-2xl">
           <div className="bg-white p-1 rounded-xl  flex justify-between">
             <div className="flex gap-3">
-              <img src={`${BASE_URL}/media/${image}`}  alt=""  className="h-12 w-12 rounded-full bg-gray-50"/>
+              <img src={`${BASE_URL}media/${image}`}  alt=""  className="h-12 w-12 rounded-full bg-gray-50"/>
               <div> <p className="text-base font-semibold">{name}</p>
               <p className="text-xs">active recently</p>
               </div>

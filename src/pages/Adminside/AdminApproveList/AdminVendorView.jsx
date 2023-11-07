@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import PublicAxios from "../../../Axios/PublicAxios";
 import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
+import { BASE_URL } from "../../../Interceptor/baseURL";
 
 const AdminVendorView = ({ user_id }) => {
   const [loading, setLoading] = useState(false);
@@ -95,7 +96,7 @@ const AdminVendorView = ({ user_id }) => {
                   <div class="h-52 w-52 bg-white rounded-full overflow-hidden relative">
                     <img
                       className="absolute top-0 left-0 w-full h-full object-cover"
-                      src={`http://127.0.0.1:8000${userdata.profile_img}`}
+                      src={`https://www.zenith-care.online${userdata.profile_img}`}
                       alt="no image"
                     />
                   </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PublicAxios from "../../../Axios/PublicAxios";
 import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
 import { BASE_URL } from "../../../Interceptor/baseURL";
-
+import VendorWallet from "./VendorWallet";
 
 const AdminVendorPayment = () => {
   const [vendorWallets, setVendorWallets] = useState([]);
@@ -15,11 +15,10 @@ const AdminVendorPayment = () => {
   const [searchText, setSearchText] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const transactionsPerPage = 5; 
+  const transactionsPerPage = 5;
 
   useEffect(() => {
     fetchVendorWalletData();
-
   }, []);
 
   const fetchVendorWalletData = () => {
@@ -36,25 +35,7 @@ const AdminVendorPayment = () => {
       });
   };
 
-
   
-  const handlePayment = (vendorId) => {
-    const roomName = `${vendorId}_Admin`;
-    console.log("room name----", roomName);
-    const newSocket = new WebSocket(`wss://www.zenith-care.online/ws/note-chat/${roomName}/`);
-    setSocket(newSocket);
-    // Add your payment handling logic here
-    console.log(vendorId);
-    PrivateAxios.put(`vendor/pay-amount/${vendorId}/`, paymentData)
-      .then((response) => {
-        console.log(`Payment successful for vendor ID ${vendorId}`);
-        fetchVendorWalletData();
-
-      })
-      .catch((error) => {
-        console.error("Payment error", error);
-      });
-  };
 
   // Function to search vendor wallets based on the search text
   const filteredWallets = vendorWallets.filter((wallet) =>
@@ -89,94 +70,54 @@ const AdminVendorPayment = () => {
           {currentTransactions.map((wallet) => (
             <li
               key={wallet.id}
-              className="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-lg shadow-md"
+              className="flex flex-col  bg-white p-4 rounded-lg shadow-md"
             >
-                 <div className="flex items-center gap-4">
-            <img
-              className="w-16 h-16 rounded-full object-cover"
-              src={`${BASE_URL}media/${wallet.vendor_image}`}
-              alt={wallet.vendor_name}
-            />
-            <div>
-              <p className="text-lg font-semibold text-gray-900">
-                {wallet.vendor_name}
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col items-end">
-            <p className="text-lg font-semibold text-gray-900">
-              Balance: <span className="text-red-800">${wallet.balance}</span>
-            </p>
-            <div className="flex gap-4 mt-3">
-            <input
-                type="text"
-                placeholder="Payment Description"
-                className="w-full md:w-64 bg-gray-100 rounded-3xl p-2"
-                value={paymentData.description}
-                onChange={(e) =>
-                  setPaymentData({
-                    ...paymentData,
-                    description: e.target.value,
-                  })
-                }
+              <VendorWallet
+                wallet={wallet}
+                fetchVendorWalletData={fetchVendorWalletData}
               />
-              <input
-                type="number"
-                placeholder="Enter Amount"
-                className="w-full md:w-32 bg-gray-100 rounded-3xl p-2"
-                value={paymentData.amount}
-                onChange={(e) =>
-                  setPaymentData({ ...paymentData, amount: e.target.value })
-                }
-              />
-            
-            </div>
-            <button
-              className="bg-red-500 mt-2 px-4 py-2 rounded-md text-white"
-              onClick={() => handlePayment(wallet.vendor)}
-            >
-              Pay Amount
-            </button>
-          </div>
-   
             </li>
           ))}
         </ul>
         <div className="mt-4 flex justify-between">
-  <div>
-    <span>
-      Page{" "}
-      <strong>
-        {currentPage} of {Math.ceil(filteredWallets.length / transactionsPerPage)}
-      </strong>{" "}
-    </span>
-  </div>
-  <div className="space-x-2">
-    <button
-      onClick={() => paginate(currentPage - 1)}
-      disabled={currentPage === 1}
-      className={`px-3 py-1 rounded-lg ${
-        currentPage === 1
-          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-          : "bg-blue-500 text-white hover:bg-blue-600"
-      }`}
-    >
-      Previous
-    </button>
-    <button
-      onClick={() => paginate(currentPage + 1)}
-      disabled={currentPage === Math.ceil(filteredWallets.length / transactionsPerPage)}
-      className={`px-3 py-1 rounded-lg ${
-        currentPage === Math.ceil(filteredWallets.length / transactionsPerPage)
-          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-          : "bg-blue-500 text-white hover:bg-blue-600"
-      }`}
-    >
-      Next
-    </button>
-  </div>
-</div>
-
+          <div>
+            <span>
+              Page{" "}
+              <strong>
+                {currentPage} of{" "}
+                {Math.ceil(filteredWallets.length / transactionsPerPage)}
+              </strong>{" "}
+            </span>
+          </div>
+          <div className="space-x-2">
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`px-3 py-1 rounded-lg ${
+                currentPage === 1
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={
+                currentPage ===
+                Math.ceil(filteredWallets.length / transactionsPerPage)
+              }
+              className={`px-3 py-1 rounded-lg ${
+                currentPage ===
+                Math.ceil(filteredWallets.length / transactionsPerPage)
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

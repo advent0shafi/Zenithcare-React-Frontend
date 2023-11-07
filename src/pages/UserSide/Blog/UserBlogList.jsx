@@ -94,7 +94,12 @@ const UserBlogList = () => {
                       <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                         <div>
                           <span className="absolute inset-0" />
-                          {post.title}
+                      
+                          <div
+                          dangerouslySetInnerHTML={{
+                            __html: post.title.slice(0, 50),
+                          }}
+                        />
                         </div>
                       </h3>
                       <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">

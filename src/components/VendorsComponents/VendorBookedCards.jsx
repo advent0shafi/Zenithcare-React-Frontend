@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PublicAxios from "../../Axios/PublicAxios";
+import { BASE_URL } from "../../Interceptor/baseURL";
+import { useNavigate } from "react-router-dom";
 
 const VendorBookedCards = ({
   booking_id,
@@ -16,6 +18,7 @@ const VendorBookedCards = ({
   time,
   therapist_id,
 }) => {
+  const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState("");
   const [openInfo, setInfo] = useState(false);
   const [Userstatus, setStatus] = useState(status);
@@ -34,7 +37,6 @@ const VendorBookedCards = ({
         );
 
         console.log(response.data);
-
         setUserInfo(response.data);
       } catch (error) {
         console.log("Error fetching user data:", error);
@@ -53,6 +55,8 @@ const VendorBookedCards = ({
         console.log(response.data.status);
         setStatus(response.data.status);
         alert("Booking status updated successfully");
+        navigate("/vendor/bookings-sessions")
+
       })
       .catch((error) => {
         alert("Error updating booking status", error);
@@ -63,7 +67,7 @@ const VendorBookedCards = ({
     <div className="transition-shadow duration-300 bg-white border shadow-sm sm:items-center hover:shadow text-black rounded-lg mb-4 w-full p-4 m-4">
       <div className="bg-[#F8FAFF]">
         <img
-          src={`http://127.0.0.1:8000/media/${user_img}`}
+          src={`${BASE_URL}media/${user_img}`}
           alt="User"
           className="w-16 h-16 rounded-full mx-auto"
         />
