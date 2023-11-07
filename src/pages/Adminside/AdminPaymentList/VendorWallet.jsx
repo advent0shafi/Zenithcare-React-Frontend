@@ -2,48 +2,57 @@ import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../../Interceptor/baseURL";
 import PrivateAxios from "../../../Interceptor/AxiosInterceptor";
 
-const VendorWallet = ({ wallet,fetchVendorWalletData }) => {
+const VendorWallet = ({ wallet, fetchVendorWalletData }) => {
   const [socket, setSocket] = useState(null);
   const [paymentData, setPaymentData] = useState({
     amount: 0,
     description: "",
   });
-  
-  const vendorId=wallet.vendor
-  console.log(vendorId)
-  const roomName = `${vendorId}_${"admin"}`;
-  console.log("room name", roomName)
+
+  const vendorId = wallet.vendor;
+  const roomName = `${vendorId}_admin`;
 
   useEffect(() => {
     if (!socket) {
-      const newSocket = new WebSocket(`ws://127.0.0.1:8000//ws/note-chat/${roomName}/`);
+      const newSocket = new WebSocket(`wss://www.zenith-care.online/ws/notfications/${roomName}/`);
       newSocket.onopen = () => {
         console.log('WebSocket connection opened');
         setSocket(newSocket);
+  
+        // Make the payment request after the WebSocket connection is open
+        handlePayment(vendorId);
       };
     }
-
+  
     return () => {
-      // Close the WebSocket connection when the component unmounts
       if (socket) {
         socket.close();
+        console.log('WebSocket closed');
       }
     };
   }, [socket, roomName]);
-
+  
 
   const handlePayment = (vendorId) => {
-  
-    PrivateAxios.put(`vendor/pay-amount/${vendorId}/`, paymentData)
-      .then((response) => {
-        console.log(`Payment successful for vendor ID ${vendorId}`);
-      
-        fetchVendorWalletData();
-      })
-      .catch((error) => {
-        console.error("Payment error", error);
-      });
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      PrivateAxios.put(`vendor/pay-amount/${vendorId}/`, paymentData)
+        .then((response) => {
+          console.log(`Payment successful for vendor ID ${vendorId}`);
+          const messageToSend = {
+            message_content: `Course "${paymentData.description}" published`,
+          };
+          socket.send(JSON.stringify(messageToSend));
+          fetchVendorWalletData();
+        })
+        .catch((error) => {
+          console.error("Payment error", error);
+        });
+    } else {
+      console.log('WebSocket is not yet open or has closed.');
+    }
   };
+
+  
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-4">
