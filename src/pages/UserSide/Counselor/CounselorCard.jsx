@@ -1,10 +1,8 @@
 import React from "react";
-import images from "./../../assets/doctor.png";
-import { Link } from "react-router-dom";
-import { CounselorProfile } from "../../pages/UserSide/Counselor/CounselorProfile";
-import { BASE_URL } from "../../Interceptor/baseURL";
-
-const HCards = ({ name, certification, specializations,language,buttonText, image,id }) => {
+import images from "./../../../assets/doctor.png";
+import { CounselorProfile } from "./CounselorProfile";
+import { BASE_URL } from "../../../Interceptor/baseURL";
+const CounselorCard = ({ name, certification, specializations,language,buttonText, image,id }) => {
 
   
   return (
@@ -37,4 +35,4 @@ const HCards = ({ name, certification, specializations,language,buttonText, imag
   );
 };
 
-export default HCards;
+export default CounselorCard;

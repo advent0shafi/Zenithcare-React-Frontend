@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import images from "./../../assets/doctor.png";
+import images from './../../../assets/doctor.png';
 import { Link } from "react-router-dom";
-import PublicAxios from "../../Axios/PublicAxios";
-import { BASE_URL } from "../../Interceptor/baseURL";
-
+import PublicAxios from "../../../Axios/PublicAxios";
+import { BASE_URL } from "../../../Interceptor/baseURL";
 const BookedSessionsCards = ({
   name,
   sessions,

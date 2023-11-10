@@ -10,28 +10,29 @@ const VendorWallet = ({ wallet, fetchVendorWalletData }) => {
   });
 
   const vendorId = wallet.vendor;
-  const roomName = `${vendorId}_admin`;
+  const roomName = vendorId;
 
   useEffect(() => {
     if (!socket) {
-      const newSocket = new WebSocket(`wss://www.zenith-care.online/ws/notfications/${roomName}/`);
+      const newSocket = new WebSocket(
+        `wss://www.zenith-care.online/ws/notfications/${roomName}/`
+      );
       newSocket.onopen = () => {
-        console.log('WebSocket connection opened');
+        console.log("WebSocket connection opened");
         setSocket(newSocket);
-  
+
         // Make the payment request after the WebSocket connection is open
         handlePayment(vendorId);
       };
     }
-  
+
     return () => {
       if (socket) {
         socket.close();
-        console.log('WebSocket closed');
+        console.log("WebSocket closed");
       }
     };
   }, [socket, roomName]);
-  
 
   const handlePayment = (vendorId) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
@@ -39,7 +40,7 @@ const VendorWallet = ({ wallet, fetchVendorWalletData }) => {
         .then((response) => {
           console.log(`Payment successful for vendor ID ${vendorId}`);
           const messageToSend = {
-            message_content: `Course "${paymentData.description}" published`,
+            message_content: `ZenithCare has sent you an amount of  $${paymentData.amount}`,
           };
           socket.send(JSON.stringify(messageToSend));
           fetchVendorWalletData();
@@ -48,11 +49,10 @@ const VendorWallet = ({ wallet, fetchVendorWalletData }) => {
           console.error("Payment error", error);
         });
     } else {
-      console.log('WebSocket is not yet open or has closed.');
+      console.log("WebSocket is not yet open or has closed.");
     }
   };
 
-  
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-4">

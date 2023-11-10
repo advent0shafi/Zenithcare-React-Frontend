@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import PublicAxios from "../../Axios/PublicAxios";
 import Slider from "react-slick";
 import toast, { Toaster } from "react-hot-toast";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Radio, Button } from "@material-tailwind/react";
+import PublicAxios from "../../../Axios/PublicAxios";
 
 const settings = {
   dots: true,

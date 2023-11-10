@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../../components/landingPages/Navbar";
-import ConCard from "../../../components/helpers/ConCard";
 import Footer from "../../../components/landingPages/Footer";
-import HCards from "../../../components/helpers/HCards";
-import Buttons from "../../../components/helpers/Buttons";
 import Filters from "../../../components/helpers/Filters";
 import PublicAxios from "../../../Axios/PublicAxios";
 import Loading from "../../../components/Spinner/Loading";
+import CounselorCard from "./CounselorCard";
 
 const Counselor = () => {
   const [therapistList, setTherapistList] = useState([]);
@@ -67,7 +65,7 @@ const Counselor = () => {
         </div>
 
         {filteredTherapistdata.map((therapist, index) => (
-          <HCards
+          <CounselorCard
             key={index}
             name={`${therapist.therapist_name}`}
             certification="® Certified & Verified"

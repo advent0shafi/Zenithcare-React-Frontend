@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import BookingCards from "../../../components/helpers/BookingCards";
-import BookingCards2 from "../../../components/helpers/BookingCards2";
-import BookingCards3 from "../../../components/helpers/BookingCards3";
+import BookingCards from "./BookingCards";
+import BookingCards2 from "./BookingCards2";
+import BookingCards3 from "./BookingCards3";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import PublicAxios from "../../../Axios/PublicAxios";
@@ -16,7 +16,7 @@ import {
   faCircleCheck,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import BookingCards4 from "../../../components/helpers/BookingCards4";
+import BookingCards4 from "./BookingCards4";
 
 const UserBooking = ({ payamount }) => {
   const authstate = useSelector((state) => state.auth);

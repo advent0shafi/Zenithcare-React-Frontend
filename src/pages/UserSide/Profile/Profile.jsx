@@ -17,9 +17,9 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-  const [image, setImage] = useState(null); // Changed initial value to null
+  const [image, setImage] = useState(null); 
   const user_id = authstate.user_id;
-  const [edit, setEdit] = useState(true); // Set to false initially
+  const [edit, setEdit] = useState(true); 
   const [userdata, setUserdata] = useState({
     username: userData ? userData.username : "",
     phone_number: userData ? userData.phone_number : "",

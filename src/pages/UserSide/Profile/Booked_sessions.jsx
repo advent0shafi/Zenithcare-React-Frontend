@@ -3,7 +3,7 @@ import Navbar from "./../../../components/landingPages/Navbar";
 import Footer from "./../../../components/landingPages/Footer";
 import Filters from "./../../../components/helpers/Filters";
 import axiosInstance from "../../../axiosInstance";
-import BookedSessionsCards from "../../../components/helpers/BookedSessionsCards";
+import BookedSessionsCards from "./BookedSessionsCards";
 import { useSelector, useDispatch } from "react-redux";
 import NoData from "../../../components/helpers/NoData";
 import ReactPaginate from "react-paginate";

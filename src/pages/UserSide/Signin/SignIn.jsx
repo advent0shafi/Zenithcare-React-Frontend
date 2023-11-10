@@ -6,16 +6,16 @@ import Navbar from "../../../components/landingPages/Navbar";
 import Footer from "../../../components/landingPages/Footer";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../../redux/AuthContext";
 import Spinner from "../../../components/Spinner/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import PublicAxios from "../../../Axios/PublicAxios";
-
+import { Input } from "@material-tailwind/react";
 
 const SignIn = () => {
-  const [loading,setLoading] = useState(false)
-  const authstate = useSelector((state)=> state.auth)
+  const [loading, setLoading] = useState(false);
+  const authstate = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,9 +27,9 @@ const SignIn = () => {
       email: email,
       password: password,
     };
-    
+
     try {
-setLoading(true)
+      setLoading(true);
       const response = await PublicAxios.post("token/", user, {
         headers: {
           "Content-Type": "application/json",
@@ -41,24 +41,21 @@ setLoading(true)
         username: response.data.username,
         accessToken: response.data.access,
         refreshToken: response.data.refresh,
-        roles : "5908",
-        user_id : response.data.id
-      }
+        roles: "5908",
+        user_id: response.data.id,
+      };
       dispatch(setCredentials(userdata));
-
 
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${response.data.access_token}`;
       history("/");
     } catch (error) {
-      toast.error("email or password invalid")
-      setLoading(false)
+      toast.error("email or password invalid");
+      setLoading(false);
       console.log(error);
     }
   };
- 
-  
 
   return (
     <div>
@@ -97,7 +94,7 @@ setLoading(true)
                     type="submit"
                     class="w-full text-center py-3 rounded-md bg-[#051570] text-white  hover:bg-green-dark focus:outline-none my-1"
                   >
-                    Login In  {loading&&<Spinner/>}
+                    Login In {loading && <Spinner />}
                   </button>
                 </form>
                 <div class="text-center text-sm text-gray-400 mt-4">
@@ -137,7 +134,6 @@ setLoading(true)
           </div>
         </div>
         <Toaster />
-
       </div>
       <Footer />
     </div>

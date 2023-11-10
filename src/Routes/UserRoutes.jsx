@@ -6,7 +6,6 @@ import SignUp from "../pages/UserSide/Signup/SignUp";
 import Counselor from "../pages/UserSide/Counselor/Counselor";
 import UserOtp from "../pages/UserSide/UserOtp/UserOtp";
 import Profile from "../pages/UserSide/Profile/Profile";
-import TherapistProfile from "../pages/UserSide/TherapistProfile/TherapistProfile";
 import ReqAuth from "../Authorisations/ReqAuth";
 import BackAuth from "../Authorisations/BackAuth";
 import UserBlog from "../pages/UserSide/Blog/UserBlog";
@@ -18,6 +17,7 @@ import UserBlogDetailsPage from "../pages/UserSide/Blog/UserBlogDetailsPage";
 import About from "../pages/UserSide/About/About";
 import UserPaymentSuccess from "../pages/UserSide/UserBooking/UserPaymentSuccess";
 import Error from "../components/landingPages/Error";
+import UserEmailSend from "../pages/UserSide/PasswordRecovery/UserEmailSend";
 
 const UserRoutes = () => {
   return (
@@ -38,9 +38,10 @@ const UserRoutes = () => {
           <Route exact path="/booked-sessions" element={<Booked_sessions />} />
           <Route exact path="/blog-details" element={<UserBlogDetailsPage />} />
           <Route exact path="/about" element={<About />} />
-          <Route exact path="/counselor/:id" element={<TherapistProfile />} />
-        </Route>
+          </Route>
           <Route exact path="/success" element={<UserPaymentSuccess />} />
+          <Route exact path="/email" element={<UserEmailSend />} />
+
         <Route path="*" element={<Error/>}/>
 
       </Routes>

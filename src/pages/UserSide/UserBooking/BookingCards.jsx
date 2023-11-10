@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import PublicAxios from "../../Axios/PublicAxios";
 import toast, { Toaster } from "react-hot-toast";
 import { Radio } from "@material-tailwind/react";
+import PublicAxios from "../../../Axios/PublicAxios";
 
 const BookingCards = ({ onSelect, selectedItems }) => {
   const [selectedItem, setSelectedItem] = useState(null);
